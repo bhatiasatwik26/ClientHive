@@ -46,8 +46,7 @@ const Profile = () => {
         }
     }
     return (
-        <div className=' flex-1 flex flex-col items-center justify-start 
-        bg-[#202a41ee] p-10'>
+        <div className='h-full flex flex-col items-center justify-start bg-[#eaebed] p-10 rounded-3xl'>
             <div className=' w-[100%] h-[100%] rounded-3xl overflow-hidden'>
                 <div className='w-full h-[30vh] p-4 relative mb-20'>
                     <img src="https://images.unsplash.com/photo-1707175834429-dcfdf423e2ae?q=80&w=2320&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" className='h-full w-full rounded-3xl object-cover object-top'/>
