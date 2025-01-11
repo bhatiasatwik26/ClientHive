@@ -10,7 +10,7 @@ const Dashboard = () => {
     return (
         <div className="w-full h-full flex">
             <SideBar/>
-            <div className="flex-1 h-full bg-[#1e202c] p-4 pl-0">
+            <div className="flex-1 h-full bg-[#1e202c] p-5 pl-0">
                 {components[index]}
             </div>
         </div>
