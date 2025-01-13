@@ -11,8 +11,6 @@ import { TbSendOff } from "react-icons/tb";
 import { TbSend } from "react-icons/tb";
 import { toast } from 'react-hot-toast';
 import '../style/chat.css';
-import logo from '../assets/logo.png';
-
 export const Chat = () => {
   const selectedChat = useSelector(state=>state.Chat.chats.selectedChat);
   const currUser = useSelector(state=>state.CurrUser.user._id);
@@ -33,24 +31,15 @@ export const Chat = () => {
     const file = e.target.files[0];
     console.log('inside image');
     
-    toast.error("hihihihi")
+    toast.error("No image")
   }
   const handleSend = async (e)=>{
     e.preventDefault();
     if(
-      (formData.text == null || formData.text == undefined || formData.text == '') && (formData.image == null || formData.image == undefined || formData.image == '')
+      (formData.text.trim() == null || formData.text.trim() == undefined || formData.text.trim() == '') && (formData.image == null || formData.image == undefined || formData.image == '')
     )
       return; 
   }
-  if(!selectedChat)
-    {
-      return (
-        <div className='h-full flex-1 flex items-center justify-center flex-col'>
-          <img src={logo} alt="logo" className=' h-72 w-72'/>
-          <p id='id' className='text-[#dd1d5d] text-2xl font-medium -mt-14 tracking-wide'>Select a chat to continue</p>
-        </div>
-      )
-    }
   return (
     <div id='chatContainer' className='h-full flex flex-1 flex-col items-center justify-start bg-[#222a3f] p-2 pb-1'>
 
@@ -78,7 +67,9 @@ export const Chat = () => {
 
       <form onSubmit={handleSend} className='w-full h-[10%] flex items-center gap-10 p-10  rounded-xl max-w-[1000px] justify-center'>
         <BsClockHistory className='text-[#dd1d5d80] text-[24px] hover:text-[#dd1d5d] duration-150 cursor-pointer'/>
-        <input type="text" placeholder='Your message here' className='placeholder:text-[#ffffff4b] flex-1 text-lg bg-[#1d2437] px-5 py-3 text-white rounded-md outline-none focus:scale-x-[101%] duration-200'/>
+        <input type="text" placeholder='Your message here' 
+        onChange={ (e)=>{setFormData({...formData, text:e.target.value })} } 
+        className='placeholder:text-[#ffffff4b] flex-1 text-lg bg-[#1d2437] px-5 py-3 text-white rounded-md outline-none focus:scale-x-[101%] duration-200'/>
         <LuImagePlus className='text-[#ffffff80] text-[28px] hover:text-[#fff] duration-200 cursor-pointer' onClick={handleImgInput}/>
         <div>
           {
