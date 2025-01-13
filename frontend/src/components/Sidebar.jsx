@@ -22,20 +22,22 @@ const SideBar = () => {
         dispatch(setSelectedChat(chat));
     }
     return (
-        <div id='sidebar' className='w-[80px] flex flex-col bg-[#1e202c] items-center justify-between py-9 duration-300'>
-            <div className='w-[100%] overflow-hidden flex flex-col items-center justify-start' onClick={()=>dispatch(setDashboardIndex(1))}>
-                <p className={`tracking-tighter text-sm text-white 
+        <div id='sidebar' className='w-[25%] flex flex-col bg-[#1e202c] items-start justify-between py-9 duration-300 px-4'>
+            <div className='w-[100%] overflow-hidden flex flex-col items-start justify-start ' onClick={()=>dispatch(setDashboardIndex(1))}>
+                <p className={`tracking-tighter text-sm text-white
                     ${selectedChat?.isGroupChat === false ? ' font-medium tracking-normal' : ''}`}>Personal
                 </p>
-                <div className='flex flex-col gap-3 w-full items-center justify-center py-2 pb-3 rounded-t-3xl rounded-b-full border-1 border-[#2d2c3082]'>
+                <div className='flex flex-col gap-3 w-full items-start justify-center py-2 pb-3 rounded-t-3xl rounded-b-full border-1 border-[#2d2c3082]'>
                 {personalChats.map((chat,index)=>(
                     <div key={chat._id} onClick={()=>{activeChat(chat)}} 
-                    className={`w-[50px] h-[50px] hover:scale-[95%] hover:shadow-inner duration-200 cursor-pointer rounded-full
-                    ${selectedChat?._id === chat._id ? 'border-2 border-[#cc1f08d6] p-1' : ''}`}>
+                    className={` flex justify-between cursor-pointer w-full`}>
+                        <div className={`w-[50px] h-[50px] rounded-full hover:scale-[95%] hover:shadow-inner duration-200 ${selectedChat?._id === chat._id ? 'border-2 border-[#cc1f08d6] p-1' : ''}`}>
                         <img src={chat.users[0]._id===user._id ?
                             chat.users[1].photo :
                             chat.users[0].photo
                         } className='w-full h-full object-cover rounded-full'/>
+                        </div>
+                        <h2 className='font-normal tracking-normal text-white'>{chat.users[1].username}</h2> 
                     </div>
                 ))}
                 </div>
@@ -44,7 +46,7 @@ const SideBar = () => {
                 </div>
             </div>
 
-            <div className={`border-y-2 border-y-[#e44d3911] w-full py-4 flex items-center justify-center cursor-pointer 
+            <div className={`border-y-2 border-y-[#e44d3911] w-full py-4 flex items-start justify-center cursor-pointer 
             ${dashboardIndex == 0 ? 'text-[#cc1f08d6] text-[40px]' : 'text-[#cc1f0867] text-3xl '} `} 
             onClick={()=>{
                 dispatch(setDashboardIndex(0));
@@ -53,17 +55,20 @@ const SideBar = () => {
                 <PiIdentificationCard className='cursor-pointer'/>
             </div>
             
-            <div className='w-[100%] overflow-hidden flex flex-col-reverse items-center justify-start gap-1' onClick={()=>dispatch(setDashboardIndex(1))}>
+            <div className='w-[100%] overflow-hidden flex flex-col-reverse items-start justify-center gap-1' onClick={()=>dispatch(setDashboardIndex(1))}>
                 <p className={`tracking-tighter text-sm text-white 
                     ${selectedChat?.isGroupChat === false ? ' font-medium tracking-normal' : ''}`}>Channel
                 </p>
-                <div className='flex flex-col gap-3 w-full items-center justify-center py-2 pb-3 rounded-t-3xl rounded-b-full border-1 border-[#2d2c3082]'>
+                <div className='flex flex-col gap-3 w-full items-start justify-center py-2 pb-3 rounded-t-3xl rounded-b-full border-1 border-[#2d2c3082]'>
                 {personalChats.map((chat,index)=>(
-                    <div key={chat._id} onClick={()=>{activeChat(chat)}} className='w-[50px] h-[50px] hover:scale-[95%] hover:shadow-inner duration-200 cursor-pointer rounded-full'>
+                    <div key={chat._id} onClick={()=>{activeChat(chat)}} className='flex justify-between px-2 cursor-pointer w-full'>
+                        <div className='w-[50px] h-[50px] hover:scale-[95%] hover:shadow-inner duration-200 cursor-pointer rounded-full'>
                         <img src={chat.users[0]._id===user._id ?
                             chat.users[1].photo :
                             chat.users[0].photo
                         } className='w-full h-full object-cover rounded-full'/>
+                        </div>
+                        <h2 className='font-normal tracking-normal text-white'>{chat.users[1].username}</h2> 
                     </div>
                 ))}
                 </div>
