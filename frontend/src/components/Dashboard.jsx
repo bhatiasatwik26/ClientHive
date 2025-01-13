@@ -1,17 +1,18 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Profile from "./Profile";
-import Chat from "./Chat.jsx";
 import SideBar from "./Sidebar.jsx";
+import ChatWindow from "./ChatWIndow.jsx";
 
 const Dashboard = () => {
     const index = useSelector((state)=>state.GlobalUtil.utils.index)
-    const components = [<Profile/>, <Chat/>];
+    const components = [ <Profile/>];
     return (
         <div className="w-full h-full flex">
             <SideBar/>
-            <div className="flex-1 h-full bg-[#1e202c] p-5 pl-0">
-                {components[index]}
+            <div className="w-full p-5 pl-0 bg-[#1d2437]">
+                <ChatWindow />
+                {/* {components[0]} */}
             </div>
         </div>
     );

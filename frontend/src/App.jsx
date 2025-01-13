@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import {AppStore,persistor} from "../utils/Appstore";
 import { PersistGate } from "redux-persist/integration/react";
 import Profile from './components/Profile';
-
+import { Toaster } from 'react-hot-toast';
 const App = () => {
   return (
     <Provider store={AppStore}>
@@ -20,7 +20,9 @@ const App = () => {
             <Route path="/dashboard" element={< Dashboard/>} />  
             <Route path="/profile" element={< Profile/>} />  
           </Routes>
+          <Toaster/>
         </Router>
+
       </PersistGate>
     </Provider>
 
