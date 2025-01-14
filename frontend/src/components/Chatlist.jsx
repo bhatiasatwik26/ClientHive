@@ -21,12 +21,13 @@ const Chatlist = () => {
         dispatch(setSelectedChat(chat));
     }
     return (
-        <div id='sidebar' className='w-[300px] flex flex-col items-start justify-between py-9 duration-300 px-4 bg-[#222a3f] h-full'>
-            <div className='w-[100%] overflow-hidden flex flex-col items-start justify-start' onClick={()=>dispatch(setDashboardIndex(1))}>
-                <p className={`tracking-tighter text-sm text-white
-                    ${selectedChat?.isGroupChat === false ? ' font-medium tracking-normal' : ''}`}>Personal
+        <div id='sidebar' className='w-[300px] flex flex-col items-start justify-between duration-300 px-4 py-9 bg-[#222a3f] h-full gap-10'>
+            <div className=' w-[100%] overflow-hidden flex flex-col items-start justify-start flex-1' onClick={()=>dispatch(setDashboardIndex(1))}>
+                <p className={` text-white self-center text-xl font-medium
+                    ${selectedChat?.isGroupChat === false ? 'tracking-wider' : ''}`}>
+                Direct Messages
                 </p>
-                <div className='flex flex-col gap-3 w-full items-start justify-center py-2 pb-3 border-1 border-[#2d2c3082]'>
+                <div className='flex flex-col gap-3 w-full items-start justify-center py-5 pb-3 border-1 border-[#2d2c3082]'>
                 {personalChats.map((chat,index)=>(
                     <div key={chat._id} onClick={()=>{activeChat(chat)}} 
                     className={` flex justify-start items-center gap-4  cursor-pointer w-full`}>
@@ -34,48 +35,46 @@ const Chatlist = () => {
                         <img src={chat.users[0]._id===user._id ?
                             chat.users[1].photo :
                             chat.users[0].photo
-                        } className='w-full h-full object-cover rounded-full'/>
+                        } 
+                        className='w-full h-full object-cover rounded-full'/>
                         </div>
-                        <h2 className='font-normal tracking-normal text-white'>{chat.users[1].username}</h2> 
+                        <h2 className={`text-white capitalize ${selectedChat?._id === chat._id ? '' : 'font-thin'}`}>{chat.users[1].username}</h2> 
                     </div>
                 ))}
                 </div>
-                <div className='w-full bg-orange flex items-center justify-start gap-4 group cursor-pointer'>
-                    <div className=' hover:scale-[95%] hover:shadow-inner duration-200 cursor-pointer flex items-center justify-center text-[#ffffff34] hover:text-[#ffffffaa] border-2 border-[#ffffff34] hover:border-[#ffffffaa] w-[50px] h-[50px] rounded-full'>
-                        <TiUserAddOutline  className='text-2xl'/>
+                <div className="w-full bg-orange flex items-center justify-start gap-4 group cursor-pointer hover:text-[#ffffffaa] text-[#ffffff34]">
+                    <div className="hover:scale-95 hover:shadow-inner duration-200 cursor-pointer flex items-center justify-center border-2 border-[#ffffff34] text-[#ffffff34] group-hover:text-[#ffffffaa] group-hover:border-[#ffffffaa] w-[50px] h-[50px] rounded-full">
+                    <TiUserAddOutline className="text-2xl" />
                     </div>
-                    <p className='font-normal tracking-normal group-hover:text-[#ffffffaa] text-[#ffffff34] '>New Chat</p>
+                    <p className="font-normal tracking-normal group-hover:text-[#ffffffaa]">New Chat</p>
                 </div>
             </div>
 
-            <div className={`border-y-2 border-y-[#dd1d5d10] w-full py-4 flex items-start justify-center cursor-pointer 
-            ${dashboardIndex == 0 ? 'text-[#dd1d5d] text-[40px]' : 'text-[#c2154fcc] text-3xl '} `} 
-            onClick={()=>{
-                dispatch(setDashboardIndex(0));
-                dispatch(setSelectedChat(null));
-            }}>
-                <PiIdentificationCard className='cursor-pointer'/>
-            </div>
-            
-            <div className='w-[100%] overflow-hidden flex flex-col-reverse items-start justify-center gap-1' onClick={()=>dispatch(setDashboardIndex(1))}>
-                <p className={`tracking-tighter text-sm text-white 
-                    ${selectedChat?.isGroupChat === false ? ' font-medium tracking-normal' : ''}`}>Channel
+            <div className=' w-[100%] overflow-hidden flex flex-col items-start justify-start flex-1' onClick={()=>dispatch(setDashboardIndex(1))}>
+                <p className={` text-white self-center text-xl font-medium
+                    ${selectedChat?.isGroupChat === false ? 'tracking-wider' : ''}`}>
+                Group Chats
                 </p>
-                <div className='flex flex-col gap-3 w-full items-start justify-center py-2 pb-3 rounded-t-3xl rounded-b-full border-1 border-[#2d2c3082]'>
+                <div className='flex flex-col gap-3 w-full items-start justify-center py-5 pb-3 border-1 border-[#2d2c3082]'>
                 {personalChats.map((chat,index)=>(
-                    <div key={chat._id} onClick={()=>{activeChat(chat)}} className='flex justify-between px-2 cursor-pointer w-full'>
-                        <div className='w-[50px] h-[50px] hover:scale-[95%] hover:shadow-inner duration-200 cursor-pointer rounded-full'>
+                    <div key={chat._id} onClick={()=>{activeChat(chat)}} 
+                    className={` flex justify-start items-center gap-4  cursor-pointer w-full`}>
+                        <div className={`w-[50px] h-[50px] rounded-full hover:scale-[95%] hover:shadow-inner duration-200 ${selectedChat?._id === chat._id ? 'border-2 border-[#dd1d5d] p-1' : ''}`}>
                         <img src={chat.users[0]._id===user._id ?
                             chat.users[1].photo :
                             chat.users[0].photo
-                        } className='w-full h-full object-cover rounded-full'/>
+                        } 
+                        className='w-full h-full object-cover rounded-full'/>
                         </div>
-                        <h2 className='font-normal tracking-normal text-white'>{chat.users[1].username}</h2> 
+                        <h2 className={`text-white capitalize ${selectedChat?._id === chat._id ? '' : 'font-thin'}`}>{chat.users[1].username}</h2> 
                     </div>
                 ))}
                 </div>
-                <div className=' hover:scale-[95%] hover:shadow-inner duration-200 cursor-pointer flex items-center justify-center text-[#ffffff34] hover:text-[#ffffffaa] border-2 border-[#ffffff34] hover:border-[#ffffffaa] w-[50px] h-[50px] rounded-full'>
-                    <MdOutlineGroupAdd  className='text-2xl'/>
+                <div className="w-full bg-orange flex items-center justify-start gap-4 group cursor-pointer hover:text-[#ffffffaa] text-[#ffffff34]">
+                    <div className="hover:scale-95 hover:shadow-inner duration-200 cursor-pointer flex items-center justify-center border-2 border-[#ffffff34] text-[#ffffff34] group-hover:text-[#ffffffaa] group-hover:border-[#ffffffaa] w-[50px] h-[50px] rounded-full">
+                    <MdOutlineGroupAdd className="text-2xl" />
+                    </div>
+                    <p className="font-normal tracking-normal group-hover:text-[#ffffffaa]">New Group</p>
                 </div>
             </div>
         </div>

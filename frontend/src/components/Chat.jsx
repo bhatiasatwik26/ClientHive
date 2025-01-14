@@ -21,6 +21,7 @@ export const Chat = () => {
   const chatEmail = chatUser[0].email;
   const [formData, setFormData] = useState({});
   const [preview, setPreview] = useState();
+  console.log(formData);
 
   const ref = useRef();
 
@@ -35,10 +36,20 @@ export const Chat = () => {
   }
   const handleSend = async (e)=>{
     e.preventDefault();
-    if(
-      (formData.text.trim() == null || formData.text.trim() == undefined || formData.text.trim() == '') && (formData.image == null || formData.image == undefined || formData.image == '')
-    )
+    if((formData.text.trim() == null || formData.text.trim() == undefined || formData.text.trim() == '') && (formData.image == null || formData.image == undefined || formData.image == ''))
       return; 
+    console.log('inside send');
+    console.log(`${import.meta.env.VITE_API_PATH}/api/message/${chatId}`);
+    const res = await fetch(`${import.meta.env.VITE_API_PATH}/api/message/${chatId}`,{
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+    const data = await res.json();
+    setFormData({image:'', text:''});
   }
   return (
     <div id='chatContainer' className='h-full flex flex-1 flex-col items-center justify-start bg-[#222a3f] p-2 pb-1'>
@@ -65,11 +76,17 @@ export const Chat = () => {
 
       </div>
 
-      <form onSubmit={handleSend} className='w-full h-[10%] flex items-center gap-10 p-10  rounded-xl max-w-[1000px] justify-center'>
+      <form onSubmit={handleSend} className='w-full h-[10%] flex items-center gap-10 p-10  rounded-xl max-w-[1000px] justify-center relative'>
         <BsClockHistory className='text-[#dd1d5d80] text-[24px] hover:text-[#dd1d5d] duration-150 cursor-pointer'/>
-        <input type="text" placeholder='Your message here' 
-        onChange={ (e)=>{setFormData({...formData, text:e.target.value })} } 
-        className='placeholder:text-[#ffffff4b] flex-1 text-lg bg-[#1d2437] px-5 py-3 text-white rounded-md outline-none focus:scale-x-[101%] duration-200'/>
+        <div className='flex-1 flex items-center justify-center relative'>
+          <div className='absolute right-2 top-0'>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTABbXr4i-QODqhy7tofHYmTYh05rYPktzacw&s" className='w-16 h-16 object-cover rounded-lg -translate-y-[110%]' alt="" />
+            <p>x</p>
+          </div>
+          <input type="text" placeholder='Your message here' value={formData.text} 
+          onChange={ (e)=>{setFormData({...formData, text:e.target.value })} } 
+          className='placeholder:text-[#ffffff4b] w-[98%]  text-lg bg-[#1d2437] px-5 py-3 text-white rounded-md outline-none focus:w-full duration-200'/>
+        </div>
         <LuImagePlus className='text-[#ffffff80] text-[28px] hover:text-[#fff] duration-200 cursor-pointer' onClick={handleImgInput}/>
         <div>
           {
