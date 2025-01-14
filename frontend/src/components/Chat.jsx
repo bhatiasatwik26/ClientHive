@@ -11,6 +11,8 @@ import { TbSendOff } from "react-icons/tb";
 import { TbSend } from "react-icons/tb";
 import { toast } from 'react-hot-toast';
 import '../style/chat.css';
+import Incoming from './Incoming.jsx';
+import Outgoing from './Outgoing.jsx';
 export const Chat = () => {
   const selectedChat = useSelector(state=>state.Chat.chats.selectedChat);
   const currUser = useSelector(state=>state.CurrUser.user._id);
@@ -72,8 +74,9 @@ export const Chat = () => {
           </div>
       </div>
 
-      <div className=' w-full flex-1'>
-
+      <div className=' w-full flex-1 flex flex-col justify-center items-center gap-7 p-6 '>
+        <Incoming/>
+        <Outgoing/>
       </div>
 
       <form onSubmit={handleSend} className='w-full h-[10%] flex items-center gap-10 p-10  rounded-xl max-w-[1000px] justify-center relative'>
