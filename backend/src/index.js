@@ -7,10 +7,9 @@ import chatRouter from './routes/chat.route.js'
 import cookieParser from 'cookie-parser';
 import { connectDB } from './utils/db.js';
 import cors from 'cors';
+import{server, app} from './utils/socket.js';
 dotenv.config();
 const PORT = process.env.PORT || 4000;
-
-const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -24,7 +23,7 @@ app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/chat', chatRouter);
 
-app.listen(PORT, ()=>{
+server.listen(PORT, ()=>{
     console.log('Server up and running at port:', PORT);
     connectDB();
 })

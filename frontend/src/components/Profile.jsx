@@ -1,6 +1,7 @@
 import  { useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUser } from '../../utils/userSlice';
+import { setSelectedChat } from '../../utils/chatSlice';
 
 const Profile = () => {
     const user = useSelector(state=>state.CurrUser.user);
@@ -10,6 +11,7 @@ const Profile = () => {
     const [loading, setLoading] = useState(false);
     const [updateData, setUpdateData] = useState({});
     const dispatch = useDispatch();
+    dispatch(setSelectedChat(null));
 
     const handleDataChange = (e) => {
         setUpdateData({...updateData, [e.target.id]: e.target.value});
@@ -46,7 +48,7 @@ const Profile = () => {
         }
     }
     return (
-        <div className="h-full flex-1 flex flex-col items-center justify-start bg-[#eaebed] p-4 rounded-3xl">
+        <div className="h-full flex-1 flex flex-col items-center justify-start bg-[#222a3f] p-4 rounded-xl">
           <div className="w-[100%] h-[100%] rounded-3xl overflow-hidden">
           <div className="w-full h-[30vh] p-4 relative mb-20">
             <img
