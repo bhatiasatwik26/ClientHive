@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+import scrollbar from 'tailwind-scrollbar';
 export default {
   content: [
     "./index.html",
@@ -7,5 +8,19 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    scrollbar({ nocompatible: true }),
+    function ({ addComponents }) {
+      addComponents({
+        '.scrollbar-hide': {
+          /* Hide scrollbar for Webkit-based browsers (Chrome, Safari, etc.) */
+          '-ms-overflow-style': 'none',  /* Internet Explorer 10+ */
+          'scrollbar-width': 'none',    /* Firefox */
+          '&::-webkit-scrollbar': {
+            display: 'none',  /* Safari and Chrome */
+          },
+        },
+      });
+    },
+  ],
 }
