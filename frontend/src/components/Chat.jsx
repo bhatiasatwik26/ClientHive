@@ -35,6 +35,9 @@ export const Chat = () => {
   const onlineUsers = useSelector(state=>state.GlobalUtil.utils.onlineList);
   const dispatch = useDispatch();
   const currMsg = useSelector(state=>state.Chat.chats.currMsg);
+
+  console.log(onlineUsers);
+  
   const [loading, setLoading] = useState(false);
 
   useEffect(()=>{fetchMsg()},[chatId]);
@@ -113,12 +116,12 @@ export const Chat = () => {
           </div>
       </div>
 
-      <div className=' w-full flex-1 flex flex-col justify-center items-center gap-7 p-10 overflow-y-scroll'>
+      <div className=' w-full flex-1 flex flex-col justify-center items-center gap-7 p-10 overflow-y-auto scrollbar-hide'>
         {
-          currMsg.map((msg,index)=>(
+          currMsg && currMsg.map((msg,index)=>(
             msg.senderId == chatUser[0]._id ? 
-            <Incoming msg={msg.text} img={msg.image}  key={Math.random()}/> :
-            <Outgoing msg={msg.text} img={msg.image} key={Math.random()}/>
+            <Incoming key={Math.random()} msg={msg.text} img={msg.image}  /> :
+            <Outgoing key={Math.random()} msg={msg.text} img={msg.image} />
           ))
         }
       </div>
@@ -138,7 +141,7 @@ export const Chat = () => {
           onChange={ (e)=>{setFormData({...formData, text:e.target.value })} } disabled={loading}
           className='placeholder:text-[#ffffff4b] w-[100%]  text-lg bg-[#1d2437] pl-5 pr-10 py-3 text-white rounded-md outline-none focus:outline-[#dd1d5d1c] duration-200 disabled:cursor-not-allowed'/>
           <p className=' text-[#dd1d5d61] absolute right-2 top-1/2 -translate-x-[50%] -translate-y-1/2 '>
-            {onlineUsers.includes(chatUser[0]._id) ? <MdCloudQueue/> : <MdCloudOff />}
+            {onlineUsers && onlineUsers.includes(chatUser[0]._id) ? <MdCloudQueue/> : <MdCloudOff />}
           </p>
         </div>
         <LuImagePlus className={`text-[#ffffff80] text-[28px] duration-200  ${loading ? 'cursor-not-allowed hover:text-[#ffffff80]' : 'cursor-pointer hover:text-[#fff]'}`} onClick={handleImgInput}/>
