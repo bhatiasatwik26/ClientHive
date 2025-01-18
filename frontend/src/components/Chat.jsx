@@ -17,6 +17,9 @@ import { updateCurrMsg, clearMsg } from '../../utils/chatSlice';
 import { useDispatch } from 'react-redux';
 import { RxCrossCircled } from "react-icons/rx";
 import { PiHourglassMediumBold } from "react-icons/pi"
+import CallModal from './CallModal.jsx';
+import { isCallModalOpen } from '../../utils/utilSlice.js';
+import { setCallstatus, setTypeOfCall } from '../../utils/callSlice.js';
 
 
 export const Chat = () => {
@@ -35,9 +38,6 @@ export const Chat = () => {
   const onlineUsers = useSelector(state=>state.GlobalUtil.utils.onlineList);
   const dispatch = useDispatch();
   const currMsg = useSelector(state=>state.Chat.chats.currMsg);
-
-  console.log(onlineUsers);
-  
   const [loading, setLoading] = useState(false);
 
   useEffect(()=>{fetchMsg()},[chatId]);
@@ -96,8 +96,7 @@ export const Chat = () => {
     setPreview(null);
   }
   return (
-    <div id='chatContainer' className='h-full flex flex-1 flex-col items-center justify-start bg-[#222a3f] p-2 pb-1'>
-
+    <div id='chatContainer' className='h-full flex flex-1 flex-col items-center relative justify-start bg-[#222a3f] p-2 pb-1'>
       <div className='w-full h-[10%] flex items-center gap-10 p-10 bg-[#1d2437] rounded-xl relative'>
           <div className=' flex-1'>
             <h1 className='text-xl capitalize text-white cursor-not-allowed'>
@@ -105,8 +104,11 @@ export const Chat = () => {
             </h1>
           </div>
           <div className=' flex-1 flex items-center justify-center gap-14'>
-            <TbPhone  className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
-            <TbVideo className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
+            <TbPhone   className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
+            <TbVideo onClick={()=>{
+              dispatch(isCallModalOpen(true)) 
+              dispatch(setTypeOfCall('start'))
+            }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <PiDotsThreeOutlineBold  className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
           </div>
           <div id='id' className=' flex-1 text-right'>
@@ -116,12 +118,12 @@ export const Chat = () => {
           </div>
       </div>
 
-      <div className=' w-full flex-1 flex flex-col justify-center items-center gap-7 p-10 overflow-y-auto scrollbar-hide'>
+      <div className=' w-full flex-1 flex flex-col justify-center items-center gap-7 p-10 overflow-y-scroll'>
         {
-          currMsg && currMsg.map((msg,index)=>(
+          currMsg.map((msg,index)=>(
             msg.senderId == chatUser[0]._id ? 
-            <Incoming key={Math.random()} msg={msg.text} img={msg.image}  /> :
-            <Outgoing key={Math.random()} msg={msg.text} img={msg.image} />
+            <Incoming msg={msg.text} img={msg.image}  key={Math.random()}/> :
+            <Outgoing msg={msg.text} img={msg.image} key={Math.random()}/>
           ))
         }
       </div>
@@ -141,7 +143,7 @@ export const Chat = () => {
           onChange={ (e)=>{setFormData({...formData, text:e.target.value })} } disabled={loading}
           className='placeholder:text-[#ffffff4b] w-[100%]  text-lg bg-[#1d2437] pl-5 pr-10 py-3 text-white rounded-md outline-none focus:outline-[#dd1d5d1c] duration-200 disabled:cursor-not-allowed'/>
           <p className=' text-[#dd1d5d61] absolute right-2 top-1/2 -translate-x-[50%] -translate-y-1/2 '>
-            {onlineUsers && onlineUsers.includes(chatUser[0]._id) ? <MdCloudQueue/> : <MdCloudOff />}
+            {onlineUsers.includes(chatUser[0]._id) ? <MdCloudQueue/> : <MdCloudOff />}
           </p>
         </div>
         <LuImagePlus className={`text-[#ffffff80] text-[28px] duration-200  ${loading ? 'cursor-not-allowed hover:text-[#ffffff80]' : 'cursor-pointer hover:text-[#fff]'}`} onClick={handleImgInput}/>

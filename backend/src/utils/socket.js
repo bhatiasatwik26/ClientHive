@@ -21,11 +21,18 @@ io.on('connection', (socket)=>{
         socketUserMap[userId] = socket.id;
     console.log(socketUserMap);
     io.emit('getOnlineUsers', Object.keys(socketUserMap));
+
+    socket.on('startCall',(startCallConfig)=>{
+        console.log(startCallConfig);
+        /*senderId,offer,sendericecandiadte,receriverId,answer,receivericecandidate*/
+    })
+
     socket.on('disconnect', ()=>{
         console.log('Bye user '+socket.id);
         delete socketUserMap[userId];
         io.emit('getOnlineUsers', Object.keys(socketUserMap));
     })
+
 })
 
 export const getSocketIdFromUserId = (userId) => {

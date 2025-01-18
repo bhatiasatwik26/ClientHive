@@ -38,11 +38,13 @@ export const signIn = async (req, res, next)=>{
         if(!bcrypt.compareSync(password, user.password))
             return next(errorHandler(400, 'Invalid password'));
         generateTokenAndSetCookies(res, user._id);
-        const {_id, email: resEmail, username, type, description, photo} = user._doc;
+        console.log(user._doc);
+        
+        const {_id, email: resEmail, username, type, description, photo, createdAt} = user._doc;
         res.status(200).json({
             success: true,
             message: 'Signed into account',
-            user:{ _id, email: resEmail, username, type, description, photo }
+            user:{ _id, email: resEmail, username, type, description, photo, createdAt }
         });
     }
     catch(err){

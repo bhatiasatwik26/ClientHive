@@ -4,10 +4,12 @@ import Profile from "./Profile";
 import SideBar from "./Sidebar.jsx";
 import ChatWindow from "./ChatWIndow.jsx";
 import Modal from "./Modal.jsx";
+import CallModal from "./CallModal.jsx";
 
 const Dashboard = () => {
     const [showModal,setShowModal] = useState(false);
-    const index = useSelector((state)=>state.GlobalUtil.utils.index)
+    const index = useSelector((state)=>state.GlobalUtil.utils.index);
+    const isCallModalOpen = useSelector(state => state.GlobalUtil.utils.isCallModalOpen);
     const components = [ <Profile/>, <ChatWindow />];
     
     return (
@@ -16,6 +18,7 @@ const Dashboard = () => {
             <div className="w-full p-5 pl-0 bg-[#1d2437]">
                 {components[index]}
                 {showModal ? <Modal setShowModal={setShowModal}/>:null}
+                {isCallModalOpen && <CallModal />}
             </div>
         </div>
     );
