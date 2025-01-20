@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { isCallModalOpen } from '../../utils/utilSlice.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { prepForCall } from '../../utils/WebRtcUtils.js'
 import { resetSlice } from '../../utils/callSlice.js'
+import { PrepForCall } from '../hooks/PrepForCall.jsx'
 
 const CallModal = () => {
 
@@ -18,7 +18,7 @@ const CallModal = () => {
 
 
   const initCall = ()=>{
-    prepForCall();
+    PrepForCall();
   }
   
 

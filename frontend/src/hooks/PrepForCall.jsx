@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setCallstatus, setLocalStream } from "./callSlice.js";
+import { setCallstatus, setLocalStream } from "../../utils/callSlice.js";
 
-export const prepForCall = async()=>{
+export const PrepForCall = ()=>{
     const callData = useSelector(state=>state.Call.call);
     console.log(callData);
-    const dispatch = useDispatch();s
+    const dispatch = useDispatch();
     const constraints = {
         video: true,
         audio: true,

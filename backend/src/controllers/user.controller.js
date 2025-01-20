@@ -2,6 +2,7 @@ import { errorHandler } from "../utils/error.js";
 import cloudinary from '../utils/cloudinary.js'
 import { User } from "../models/user.model.js";
 import { Message } from "../models/message.model.js";
+import { log } from "console";
 
 export const updateProfile = async (req, res, next)=>{ 
     const {photo, description} = req.body;
@@ -38,3 +39,26 @@ export const updateProfile = async (req, res, next)=>{
     }
 
 }
+
+//post request /api/user/
+export const allUsers = async (req, res, next) => {
+    const keyword = req.body.search ? {
+        $or: [
+            { username: { $regex: req.body.search, $options: 'i' } },
+            { email: { $regex: req.body.search, $options: 'i' } }
+        ],
+    }
+    : {};
+
+    try {
+        const users = await User.find({ _id: { $ne: req.userId },...keyword}).select('-password');
+
+        res.json({
+            success: true,
+            msg: 'Users fetched successfully',
+            data: users
+        });
+    } catch (error) {
+        next(error);
+    }
+};
