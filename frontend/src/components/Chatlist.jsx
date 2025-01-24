@@ -7,6 +7,8 @@ import { PiUserFill } from "react-icons/pi";
 import { MdOutlineGroupAdd } from "react-icons/md";
 import { TiUserAddOutline } from "react-icons/ti";
 import { PiIdentificationCard } from "react-icons/pi";
+import { HiUserAdd } from "react-icons/hi";
+import { ImHome } from "react-icons/im";
 import '../style/sidebar.css'
 
 
@@ -25,10 +27,24 @@ const Chatlist = () => {
             <div className=' w-[100%] overflow-hidden flex flex-col items-start justify-start flex-1 ' onClick={()=>dispatch(setDashboardIndex(1))}>
                 <p className={` text-white self-center text-xl font-medium
                     ${selectedChat?.isGroupChat === false ? 'tracking-wider' : ''}`}>
-                Direct Messages
+                Your Chats
                 </p>
                 <div className='flex flex-col gap-3 w-full items-start justify-start py-5 pb-3 border-1 border-[#2d2c3082] h-full'>
-                {personalChats.map((chat,index)=>(
+                {
+                !personalChats &&
+                    <div className='w-full flex flex-col gap-3 items-center justify-center'>
+                        <div className={`flex justify-center items-center cursor-not-allowed w-full h-[55px] bg-[#1d243785] p-2 rounded-md `}>
+                            <p className='text-[#ffffff97]'>Wow...It looks soooo empty</p>
+                        </div>
+                        <div className={`flex justify-center items-center cursor-not-allowed w-full h-[55px] bg-[#1d243785] p-2 rounded-md `}>
+                            <p className='text-[#ffffff97] flex items-center justify-center gap-2'> Click on<HiUserAdd /> to start a new chat.</p>
+                        </div>
+                        <div className={`flex justify-center items-center cursor-not-allowed w-full h-[55px] bg-[#1d243785] p-2 rounded-md `}>
+                            <p className='text-[#ffffff97] flex items-center justify-center gap-2'>Click on <ImHome /> to view your profile.</p>
+                        </div>
+                    </div>
+                }
+                {personalChats && personalChats.map((chat,index)=>(
                     <div key={chat._id} onClick={()=>{activeChat(chat)}} 
                     className={` flex justify-start items-center gap-4  cursor-pointer w-full h-[55px] bg-[#1d2437] p-2 rounded-md border-2 ${selectedChat?._id === chat._id ? ' border-[#dd1d5d66]' : 'border-[#1d2437]'}`}>
                         <div className={`w-[40px] h-[40px] rounded-full hover:scale-[95%] hover:shadow-inner duration-200 relative linear `}>

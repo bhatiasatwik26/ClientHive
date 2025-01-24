@@ -14,7 +14,7 @@ import { useNavigate } from 'react-router-dom';
 const Sidebar = ({showModal,setShowModal}) => {
 
     getPersonalChats();
-    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage} = UseSocket();
+    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToIncomingCall } = UseSocket();
     const userId = useSelector(state=>state.CurrUser.user._id);
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -23,7 +23,8 @@ const Sidebar = ({showModal,setShowModal}) => {
         const socket = connectSocket(userId);
         getOnlineUsers(socket);
         listenToMessage(socket);
-        return ()=>{socket.disconnect()}
+        // listenToIncomingCall(socket);
+        return ()=>{disconnectSocket(socket)}
     }, [])
     
     const index = useSelector(state=>state.GlobalUtil.utils.index);
@@ -37,15 +38,14 @@ const Sidebar = ({showModal,setShowModal}) => {
     }
     return (
         <div className='w-[65px] flex flex-col bg-[#1d2437] items-center justify-center gap-16 py-9 px-4 relative'>
-            <div className='w-16 h-16 absolute left-0 top-0'>
+            <div className='w-16 h-16 absolute left-0 top-2'>
                 <img src={logo} alt='logo' className='w-full h-full object-fill rounded-lg scale-[105%]'/>
             </div>
             
             <ImHome id='0' onClick={()=>dispatch(setDashboardIndex(0))} className={` duration-100 ease-in-out cursor-pointer text-2xl ${index == 0 ? 'text-[#dd1d5d]' : 'text-white'}`}/>
             <HiChatBubbleBottomCenterText id='1' onClick={()=>dispatch(setDashboardIndex(1))} className={` duration-100 ease-in-out cursor-pointer text-2xl ${index == 1 ? 'text-[#dd1d5d]' : 'text-white'}`}/>
-            <MdGroupAdd id='2' onClick={()=>handleClick()} className={` duration-100 ease-in-out cursor-pointer text-2xl ${showModal ? 'text-[#dd1d5d]' : 'text-white'}`}/>
-            <HiUserAdd id='3' onClick={()=>handleClick()} className={` duration-100 ease-in-out cursor-pointer text-2xl ${showModal ? 'text-[#dd1d5d]' : 'text-white'}`}/>
-            <IoLogOut id='4' onClick={handleLogout} className='text-red-600 text-2xl cursor-pointer hover:text-red-700 duration-150 ease-out'/>
+            <HiUserAdd id='3' onClick={()=>handleClick()} className={` duration-100 ease-in-out cursor-pointer text-2xl hover:text-[#dd1d5deb] text-white`}/>
+            <IoLogOut id='4' onClick={handleLogout} className='text-red-600 text-2xl cursor-pointer hover:text-red-800 duration-150 ease-in-out'/>
         </div>
     );
 }

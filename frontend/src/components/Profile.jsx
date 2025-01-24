@@ -77,7 +77,6 @@ const Profile = () => {
             <div className="flex flex-col gap-1 text-white">
               <p className="text-3xl font-semibold capitalize">
                 {username} 
-                <span className="text-[#ffffff50] text-base ml-2">({type})</span>
               </p>
               <p className="text-[#ffffff15] text-sm">{_id}</p>
             </div>

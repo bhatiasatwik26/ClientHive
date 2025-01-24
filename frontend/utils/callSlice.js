@@ -1,36 +1,65 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  localStream: null,
+  remoteStream: null,
+  isCallActive: false,
+  isCaller: false,
+  isReceivingCall: false,
+  isVideoEnabled: true,
+  isAudioEnabled: true,
+  targetUserId: null,
+  peerConnection: null,
+};
 
 const callSlice = createSlice({
-  name: "callSlice",
-  initialState: {
-    call: {callStatus: null, localStream: null, remoteStream: null, peerConnection: null, offerData: null, typeOfCall: null},
-  },
+  name: 'callSlice',
+  initialState,
   reducers: {
-    setCallstatus: (state, action) => {
-      state.call.callStatus = action.payload;
-    },
     setLocalStream: (state, action) => {
-      state.call.localStream = action.payload;
+      state.localStream = action.payload;
     },
     setRemoteStream: (state, action) => {
-      state.call.remoteStream = action.payload;
+      state.remoteStream = action.payload;
+    },
+    setIsCallActive: (state, action) => {
+      state.isCallActive = action.payload;
+    },
+    setIsCaller: (state, action) => {
+      state.isCaller = action.payload;
+    },
+    setIsReceivingCall: (state, action) => {
+      state.isReceivingCall = action.payload;
+    },
+    setIsVideoEnabled: (state, action) => {
+      state.isVideoEnabled = action.payload;
+    },
+    setIsAudioEnabled: (state, action) => {
+      state.isAudioEnabled = action.payload;
+    },
+    setTargetUserId: (state, action) => {
+      state.targetUserId = action.payload;
     },
     setPeerConnection: (state, action) => {
-        state.call.peerConnection = action.payload;
-    },
-    setOfferData: (state, action) => {
-        state.call.offerData = action.payload;
-    },
-    setTypeOfCall: (state, action) => {
-        state.call.typeOfCall = action.payload;
+      state.peerConnection = action.payload;
     },
     resetSlice: (state) => {
-        state.call = {callStatus: null, localStream: null, remoteStream: null, peerConnection: null, offerData: null, typeOfCall: null};
+      return initialState;
+    },
   },
-}
 });
 
-
-export const { setCallstatus, setLocalStream, setRemoteStream, setPeerConnection, setOfferData, setTypeOfCall, resetSlice } = callSlice.actions;
+export const {
+  setLocalStream,
+  setRemoteStream,
+  setIsCallActive,
+  setIsCaller,
+  setIsReceivingCall,
+  setIsVideoEnabled,
+  setIsAudioEnabled,
+  setTargetUserId,
+  setPeerConnection,
+  resetSlice,
+} = callSlice.actions;
 
 export default callSlice.reducer;

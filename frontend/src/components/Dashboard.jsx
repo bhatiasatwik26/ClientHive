@@ -5,6 +5,7 @@ import SideBar from "./Sidebar.jsx";
 import ChatWindow from "./ChatWIndow.jsx";
 import Modal from "./Modal.jsx";
 import CallModal from "./CallModal.jsx";
+import ChatAnalysis from "./ChatAnalysis.jsx";
 
 const Dashboard = () => {
     const [showModal,setShowModal] = useState(false);
@@ -18,7 +19,8 @@ const Dashboard = () => {
             <div className="w-full p-5 pl-0 bg-[#1d2437]">
                 {components[index]}
                 {showModal ? <Modal setShowModal={setShowModal}/>:null}
-                {isCallModalOpen && <CallModal />}
+                {false && <CallModal />}
+                {/* {<ChatAnalysis />} */}
             </div>
         </div>
     );

@@ -11,8 +11,8 @@ const ChatWindow = () => {
             <Chatlist />
             {selectedChat ? 
             <Chat /> :
-            <div className='h-full flex flex-1 flex-col items-center justify-center bg-[#222a3f] p-2 pb-1'>
-                <img src={logo} alt="logo" className=' h-[280px] w-[280px]'/>
+            <div className='h-full flex flex-1 flex-col items-center justify-start pt-[12%] bg-[#222a3f] pb-1'>
+                <img src={logo} alt="logo" className=' h-[250px] w-[250px]'/>
                 <p id='id' className='text-[#dd1d5d7e] text-2xl font-medium -mt-14 tracking-wide'>Select a chat to continue</p>
             </div>
             }

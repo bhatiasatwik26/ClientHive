@@ -19,7 +19,6 @@ import { RxCrossCircled } from "react-icons/rx";
 import { PiHourglassMediumBold } from "react-icons/pi"
 import CallModal from './CallModal.jsx';
 import { isCallModalOpen } from '../../utils/utilSlice.js';
-import { setCallstatus, setTypeOfCall } from '../../utils/callSlice.js';
 
 
 export const Chat = () => {
@@ -107,7 +106,6 @@ export const Chat = () => {
             <TbPhone   className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <TbVideo onClick={()=>{
               dispatch(isCallModalOpen(true)) 
-              dispatch(setTypeOfCall('start'))
             }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <PiDotsThreeOutlineBold  className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
           </div>

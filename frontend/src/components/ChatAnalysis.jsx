@@ -4,17 +4,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { resetSlice } from '../../utils/callSlice.js'
 import { UseSocket } from '../hooks/UseSocket.jsx'
 
-const CallModal = () => {
+const ChatAnalysis = () => {
 
   const {listenToCallEvents, clearCallEvents} = UseSocket()
-
-  useEffect(()=>{
-    // listenToCallEvents();
-    return ()=>{
-      // clearCallEvents();
-      dispatch(resetSlice())
-    }
-  },[])
+ 
 
   const dispatch = useDispatch()
   const CallData = useSelector(state=>state.Call.call);
@@ -36,4 +29,4 @@ const CallModal = () => {
   )
 }
 
-export default CallModal
+export default ChatAnalysis

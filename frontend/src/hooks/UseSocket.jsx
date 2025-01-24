@@ -7,9 +7,9 @@ import { AppStore } from "../../utils/Appstore";
 
 export const UseSocket = () => {
     const dispatch = useDispatch();
-
+    let socket = null;
     const connectSocket = (userId) => {
-        const socket = io(`${import.meta.env.VITE_API_PATH}`, {
+        socket = io(`${import.meta.env.VITE_API_PATH}`, {
             query: {userId},
         });
         return socket;
@@ -34,6 +34,14 @@ export const UseSocket = () => {
                 dispatch(updateCurrMsg(msg));
         });
     };
+
+    const listenToIncomingCall = (socket) => {
+        socket.on('incomingCall', (data) => {
+            console.log('incoming call', data);
+        });
+    };
+
+    
 
     return { connectSocket, disconnectSocket, getOnlineUsers, listenToMessage };
 };
