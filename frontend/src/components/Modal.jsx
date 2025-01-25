@@ -1,4 +1,5 @@
     import  { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { MdPersonAdd } from "react-icons/md";
 const Modal = ({ setShowModal }) => {
     const [isExpanded, setIsExpanded] = useState(false);
@@ -47,6 +48,9 @@ const Modal = ({ setShowModal }) => {
         console.log(data);
         if(data.success==false){
             setChatexists(true);
+        }
+        else{
+            toast.success("User Added Successfully");
         }     
     }
 

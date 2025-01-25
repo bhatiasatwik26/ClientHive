@@ -1,7 +1,7 @@
 import  { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signInSuccess } from '../../utils/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 const SignUp = () => {
     const [signup, setsignup] = useState(false)
@@ -10,6 +10,12 @@ const SignUp = () => {
     const[loading, setLoading] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const currUser = useSelector(state => state.CurrUser.user)
+    if(currUser!=null && currUser!=undefined && Object.keys(currUser).length !== 0){
+        return <Navigate to="/dashboard" replace />;
+    }
+
 
     const changeMode = ()=>{setsignup(!signup)}
 
@@ -27,11 +33,12 @@ const SignUp = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
+            credentials : 'include',
             body: JSON.stringify(form)
         });
         const data = await res.json();
         setLoading(false);
-        if(data.sucess===false){
+        if(data.success===false){
             setError(data.message)
         }
         else{

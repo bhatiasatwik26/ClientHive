@@ -12,7 +12,9 @@ export const validateSignUp = (req, res, next) =>{
         next();
 }
 export const validateSignIn = (req, res, next) =>{
+    console.log(req.body);
     const { email, password } = req.body;
+    
     if(email === undefined || email == '')
         return next(errorHandler(501, 'missing field: email'));
     else if(password === undefined || password == '')

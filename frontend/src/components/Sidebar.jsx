@@ -4,13 +4,14 @@ import { HiUserAdd } from "react-icons/hi";
 import { ImHome } from "react-icons/im";
 import { IoLogOut } from "react-icons/io5";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
-import { setDashboardIndex,  } from '../../utils/utilSlice';
+import { isCallModalOpen, setDashboardIndex, setOnlineUsers,  } from '../../utils/utilSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import getPersonalChats from '../hooks/getPersonalChats';
 import { UseSocket } from '../hooks/UseSocket';
-import { signInSuccess } from '../../utils/userSlice.js';
+import { resetUser, signInSuccess } from '../../utils/userSlice.js';
 import logo from '../assets/logo.png';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { clearMsg, setSelectedChat } from '../../utils/chatSlice.js';
 const Sidebar = ({showModal,setShowModal}) => {
 
     getPersonalChats();
@@ -29,9 +30,23 @@ const Sidebar = ({showModal,setShowModal}) => {
     
     const index = useSelector(state=>state.GlobalUtil.utils.index);
 
-    const handleLogout = (chat)=>{ 
-        dispatch(signInSuccess(null));
-        navigate('/sign-in');
+    const handleLogout = async()=>{ 
+        dispatch(resetUser())
+        dispatch(setSelectedChat(null)); 
+        dispatch(setDashboardIndex(0));
+        dispatch(isCallModalOpen(false));
+        const response = await fetch(`${import.meta.env.VITE_API_PATH}/api/auth/logout`,{
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+
+        const data = response.json();
+        if(data.success){
+            return <Navigate to="/sign-up" replace />;
+        }
     }
     const handleClick = (index)=>{
         setShowModal(true);

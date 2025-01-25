@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUser } from "../../utils/userSlice";
 import { setSelectedChat } from "../../utils/chatSlice";
@@ -6,29 +6,42 @@ import { TbPhotoUp } from "react-icons/tb";
 import { PiPencilSimpleBold } from "react-icons/pi";
 import { TiInfoLarge } from "react-icons/ti";
 import { MdEmail } from "react-icons/md";
+import toast from "react-hot-toast";
+import { Navigate } from "react-router-dom";
 
 const Profile = () => {
   const user = useSelector((state) => state.CurrUser.user);
+  const ref = useRef(null);
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
+  const [updateData, setUpdateData] = useState({});
+  const [redirect, setRedirect] = useState(false); 
+  const dispatch = useDispatch();
+  dispatch(setSelectedChat(null));
+
+  if (Object.keys(user).length === 0) {
+    return <Navigate to="/sign-up" replace /> 
+  }
+
   const { photo, _id, type, username, email, description, createdAt } = user;
   const readableDate = new Date(createdAt).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
-  const ref = useRef(null);
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(false);
-  const [updateData, setUpdateData] = useState({});
-  const dispatch = useDispatch();
-  dispatch(setSelectedChat(null));
 
   const handleDataChange = (e) => {
     setUpdateData({ ...updateData, [e.target.id]: e.target.value });
   };
-
+  
   const updateProfile = async () => {
     setLoading(true);
     setError(null);
+    if (Object.keys(updateData).length === 0) {
+      toast.error("Nothing to update");
+      setLoading(false);
+      return;
+  }
     const res = await fetch(`${import.meta.env.VITE_API_PATH}/api/user/update/${_id}`, {
       method: "POST",
       headers: {
@@ -41,6 +54,10 @@ const Profile = () => {
     setLoading(false);
     if (data.success === false) setError(data.message);
     dispatch(updateUser(data.data));
+    console.log(data.data);
+    
+    toast.success("Profile updated successfully")
+    setUpdateData({});
   };
 
   const handlePhotoChange = (e) => {
