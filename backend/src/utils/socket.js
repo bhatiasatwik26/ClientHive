@@ -2,6 +2,8 @@ import {Server} from 'socket.io';
 import http from 'http';
 import express from 'express';
 import {instrument} from '@socket.io/admin-ui'
+import { log } from 'console';
+import e from 'cors';
 
 const app = express();
 const server = http.createServer(app);
@@ -31,6 +33,14 @@ io.on('connection', (socket)=>{
         console.log('Bye user '+socket.id);
         delete socketUserMap[userId];
         io.emit('getOnlineUsers', Object.keys(socketUserMap));
+    })
+
+    socket.on('typing', ({emitterId, targetId, typingStatus})=>{
+        console.log(emitterId, targetId, typingStatus);
+        const targetSocketId = socketUserMap[targetId];
+        console.log(targetSocketId);
+        
+        io.to(targetSocketId).emit('typing', {emitterId, typingStatus});
     })
 
 })

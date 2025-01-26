@@ -8,24 +8,39 @@ import CallModal from "./CallModal.jsx";
 import ChatAnalysis from "./ChatAnalysis.jsx";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
+import { UseSocket } from "../hooks/UseSocket.jsx";
 
 const Dashboard = () => {
+
+    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToIncomingCall, listenToTyping} = UseSocket();
+
+    const [socket, setSocket] = useState(null);
+    
+    
     const [showModal,setShowModal] = useState(false);
+
     const index = useSelector((state)=>state.GlobalUtil.utils.index);
     const isCallModalOpen = useSelector(state => state.GlobalUtil.utils.isCallModalOpen);
     const currUser = useSelector(state=>state.CurrUser.user)
+    const userId = useSelector(state=>state.CurrUser.user._id);
 
-    useEffect(() => {
-        if (currUser && Object.keys(currUser).length > 0) {
-            toast.success(`Welcome ${currUser.username}`);
-        }
-    }, [currUser]);
+    useEffect(()=>{
+        setSocket(connectSocket(userId));
+        return ()=>{disconnectSocket(socket)};
+    },[])
 
-    if( currUser === null || currUser==undefined || Object.keys(currUser).length === 0){
+    useEffect(()=>{
+            getOnlineUsers(socket);
+            listenToMessage(socket);
+            listenToTyping(socket);
+            // listenToIncomingCall(socket);
+        }, [socket])
+
+    if(currUser === null || currUser==undefined || Object.keys(currUser).length === 1)
+    {
         return <Navigate to="/sign-up" replace />;
     }
-    const components = [ <Profile/>, <ChatWindow />];
-    
+    const components = [ <Profile />,<ChatWindow socket={socket}/>];
     
     return (
         <div className="w-full h-full flex">

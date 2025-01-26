@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const chatSlice = createSlice({
   name: "chats",
   initialState: {
-    chats: {personal: [], group: [], selectedChat: null, currMsg: []},
+    chats: {personal: [], typing: null, selectedChat: null, currMsg: []},
   },
   reducers: {
     setPersonalChats: (state, action) => {
@@ -24,10 +24,13 @@ const chatSlice = createSlice({
     },
     clearMsg: (state) => {
       state.chats = {...state.chats, currMsg: []};
+    },
+    setTyping: (state, action) => {
+      state.chats = {...state.chats, typing: action.payload};
     }
   }
 });
 
-export const { setPersonalChats, setGroupChats, setSelectedChat, updateCurrMsg, clearMsg } = chatSlice.actions;
+export const { setPersonalChats, setGroupChats, setSelectedChat, updateCurrMsg, clearMsg, setTyping } = chatSlice.actions;
 
 export default chatSlice.reducer;

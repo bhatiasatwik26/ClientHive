@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { MdGroupAdd } from "react-icons/md";
 import { HiUserAdd } from "react-icons/hi";
 import { ImHome } from "react-icons/im";
 import { IoLogOut } from "react-icons/io5";
@@ -11,23 +10,11 @@ import { UseSocket } from '../hooks/UseSocket';
 import { resetUser, signInSuccess } from '../../utils/userSlice.js';
 import logo from '../assets/logo.png';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { clearMsg, setSelectedChat } from '../../utils/chatSlice.js';
+import { setSelectedChat } from '../../utils/chatSlice.js';
 const Sidebar = ({showModal,setShowModal}) => {
 
-    getPersonalChats();
-    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToIncomingCall } = UseSocket();
-    const userId = useSelector(state=>state.CurrUser.user._id);
     const dispatch = useDispatch();
-    const navigate = useNavigate()
-    
-    useEffect(()=>{
-        const socket = connectSocket(userId);
-        getOnlineUsers(socket);
-        listenToMessage(socket);
-        // listenToIncomingCall(socket);
-        return ()=>{disconnectSocket(socket)}
-    }, [])
-    
+    const user = useSelector(state=>state.CurrUser.user);
     const index = useSelector(state=>state.GlobalUtil.utils.index);
 
     const handleLogout = async()=>{ 
@@ -61,6 +48,7 @@ const Sidebar = ({showModal,setShowModal}) => {
             <HiChatBubbleBottomCenterText id='1' onClick={()=>dispatch(setDashboardIndex(1))} className={` duration-100 ease-in-out cursor-pointer text-2xl ${index == 1 ? 'text-[#dd1d5d]' : 'text-white'}`}/>
             <HiUserAdd id='3' onClick={()=>handleClick()} className={` duration-100 ease-in-out cursor-pointer text-2xl hover:text-[#dd1d5deb] text-white`}/>
             <IoLogOut id='4' onClick={handleLogout} className='text-red-600 text-2xl cursor-pointer hover:text-red-800 duration-150 ease-in-out'/>
+            <p className='text-white text-xl'>{user._id}</p>
         </div>
     );
 }

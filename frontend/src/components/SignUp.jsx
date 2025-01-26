@@ -12,7 +12,7 @@ const SignUp = () => {
     const navigate = useNavigate();
 
     const currUser = useSelector(state => state.CurrUser.user)
-    if(currUser!=null && currUser!=undefined && Object.keys(currUser).length !== 0){
+    if(currUser!=null && currUser!=undefined && Object.keys(currUser).length > 1){
         return <Navigate to="/dashboard" replace />;
     }
 

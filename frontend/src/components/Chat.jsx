@@ -19,9 +19,12 @@ import { RxCrossCircled } from "react-icons/rx";
 import { PiHourglassMediumBold } from "react-icons/pi"
 import CallModal from './CallModal.jsx';
 import { isCallModalOpen } from '../../utils/utilSlice.js';
+import { markUnreadMsg } from '../../utils/userSlice.js';
+import { use } from 'react';
 
 
-export const Chat = () => {
+export const Chat = ({ socket }) => {
+  
   const selectedChat = useSelector(state=>state.Chat.chats.selectedChat);
   const currUser = useSelector(state=>state.CurrUser.user._id);
   const chatUser = selectedChat.users.filter(user => user._id != currUser);
@@ -29,18 +32,49 @@ export const Chat = () => {
   const chatPhoto = chatUser[0].photo;
   const chatId = selectedChat._id;
   const chatEmail = chatUser[0].email;
-  const [formData, setFormData] = useState({
-    text:"", image:""
-  });
+  const [formData, setFormData] = useState({ text:"", image:""});
   const [preview, setPreview] = useState(null);
   const ref = useRef();
   const onlineUsers = useSelector(state=>state.GlobalUtil.utils.onlineList);
   const dispatch = useDispatch();
   const currMsg = useSelector(state=>state.Chat.chats.currMsg);
   const [loading, setLoading] = useState(false);
+  const typing = useSelector(state=>state.Chat.chats.typing);
 
-  useEffect(()=>{fetchMsg()},[chatId]);
+  // fetching all messages of this chat
+  useEffect(()=>{
+    if(socket)
+      socket.emit('typing', {
+        emitterId:currUser,
+        targetId:chatUser[0]._id,
+        typingStatus:false
+      });
+      console.log('fetching messages');
+    fetchMsg()
+  },[chatId]); 
+
+  // mark all unread messages as read
+  useEffect(()=>{ 
+    dispatch(markUnreadMsg(chatUser[0]._id))
+  },[chatId]);
+
+  // emitting typing event if user is typing
+  useEffect(()=>{
+    if(socket &&  formData.text.trim() == '')
+      socket.emit('typing', {
+        emitterId:currUser,
+        targetId:chatUser[0]._id,
+        typingStatus:false
+      });
+      else if(socket)
+      socket.emit('typing', {
+        emitterId:currUser,
+        targetId:chatUser[0]._id,
+        typingStatus:true
+      });
+  },[formData.text]);
   
+
   const fetchMsg = async ()=>{
     dispatch(clearMsg());
     const data = await fetch(`${import.meta.env.VITE_API_PATH}/api/message/${chatUser[0]._id}`, {
@@ -114,6 +148,13 @@ export const Chat = () => {
               {chatEmail}
             </h2>
           </div>
+          {
+            typing.emitterId == chatUser[0]._id &&
+            typing.typingStatus &&
+            <p className='absolute left-0 top-0'>
+              typing
+            </p>
+          }
       </div>
 
       <div className=' w-full flex-1 flex flex-col justify-center items-center gap-7 p-10 overflow-y-scroll'>

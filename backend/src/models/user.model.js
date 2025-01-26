@@ -20,12 +20,10 @@ const userSchema = new mongoose.Schema({
     description:{
         type:String
     },
-    trustScore:{
-        type: Number
+    unreadMsg:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
     },
-    companyName:{
-        type: String
-    }
 }, {timestamps: true})
 
 export const User = mongoose.model('User', userSchema);
