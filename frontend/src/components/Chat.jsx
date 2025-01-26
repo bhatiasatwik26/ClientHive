@@ -149,7 +149,7 @@ export const Chat = ({ socket }) => {
             </h2>
           </div>
           {
-            typing.emitterId == chatUser[0]._id &&
+            typing && typing.emitterId == chatUser[0]._id &&
             typing.typingStatus &&
             <p className='absolute left-0 top-0'>
               typing

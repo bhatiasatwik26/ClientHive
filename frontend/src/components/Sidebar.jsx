@@ -12,7 +12,7 @@ import logo from '../assets/logo.png';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { setSelectedChat } from '../../utils/chatSlice.js';
 const Sidebar = ({showModal,setShowModal}) => {
-
+    getPersonalChats()
     const dispatch = useDispatch();
     const user = useSelector(state=>state.CurrUser.user);
     const index = useSelector(state=>state.GlobalUtil.utils.index);
@@ -48,7 +48,7 @@ const Sidebar = ({showModal,setShowModal}) => {
             <HiChatBubbleBottomCenterText id='1' onClick={()=>dispatch(setDashboardIndex(1))} className={` duration-100 ease-in-out cursor-pointer text-2xl ${index == 1 ? 'text-[#dd1d5d]' : 'text-white'}`}/>
             <HiUserAdd id='3' onClick={()=>handleClick()} className={` duration-100 ease-in-out cursor-pointer text-2xl hover:text-[#dd1d5deb] text-white`}/>
             <IoLogOut id='4' onClick={handleLogout} className='text-red-600 text-2xl cursor-pointer hover:text-red-800 duration-150 ease-in-out'/>
-            <p className='text-white text-xl'>{user._id}</p>
+            {/* <p className='text-white text-xl'>{user._id}</p>  */}
         </div>
     );
 }

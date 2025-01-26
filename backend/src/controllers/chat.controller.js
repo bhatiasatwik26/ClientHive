@@ -16,9 +16,10 @@ export const createChatFor2Users = async (req, res, next) =>{
             });
         const chat = new Chat({users: [user1, user2]});
         await chat.save();
+        const populatedChat = await Chat.findById(chat._id).populate('users', 'username email photo');
         res.json({
             success: true,
-            data: chat
+            data: populatedChat,
         });
     }
     catch(err){

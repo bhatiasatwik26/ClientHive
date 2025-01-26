@@ -13,7 +13,6 @@ import '../style/sidebar.css'
 
 
 const Chatlist = () => {
-    
     const user = useSelector(state=>state.CurrUser.user);
     const personalChats = useSelector(state=>state.Chat.chats.personal);
     const dashboardIndex = useSelector(state=>state.GlobalUtil.utils.index); 
@@ -46,6 +45,7 @@ const Chatlist = () => {
                     </div>
                 }
                 {personalChats && personalChats.map((chat,index)=>(
+                    chat && chat.users && (
                     <div key={chat._id} onClick={()=>{activeChat(chat)}} 
                     className={` flex justify-start items-center gap-4  cursor-pointer w-full h-[55px] bg-[#1d2437] relative p-2 rounded-md border-2 ${selectedChat?._id === chat._id ? ' border-[#dd1d5d66]' : 'border-[#1d2437]'}`}>
                         <div className={`w-[40px] h-[40px] rounded-full hover:scale-[95%] hover:shadow-inner duration-200 relative linear `}>
@@ -61,15 +61,15 @@ const Chatlist = () => {
                         }
                         </h2> 
                         {
-                            unRead[chat.users[0]._id] || 
-                                unRead[chat.users[1]._id] && <div className='text-[#ffffffd2] absolute right-0 top-0 bg-[#dd1d5d66] p-2 h-full w-8 flex items-center justify-center rounded-e-md'>
+                           unRead && (unRead[chat.users[0]._id] || 
+                                unRead[chat.users[1]._id]) && <div className='text-[#ffffffd2] absolute right-0 top-0 bg-[#dd1d5d66] p-2 h-full w-8 flex items-center justify-center rounded-e-md'>
                                 <p >
                                     {unRead[chat.users[0]._id] || 
                                     unRead[chat.users[1]._id]}
                                 </p>
                             </div>
                         }
-                    </div>
+                    </div>)
                 ))}
                 </div>
             </div>

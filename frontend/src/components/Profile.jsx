@@ -54,8 +54,6 @@ const Profile = () => {
     setLoading(false);
     if (data.success === false) setError(data.message);
     dispatch(updateUser(data.data));
-    console.log(data.data);
-    
     toast.success("Profile updated successfully")
     setUpdateData({});
   };

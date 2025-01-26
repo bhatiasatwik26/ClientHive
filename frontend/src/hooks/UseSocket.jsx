@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
 import { setOnlineUsers } from "../../utils/utilSlice";
-import { setTyping, updateCurrMsg } from "../../utils/chatSlice";
+import { setPersonalChats, setTyping, updateCurrMsg } from "../../utils/chatSlice";
 import { AppStore } from "../../utils/Appstore";
 import { setUnreadMsg } from "../../utils/userSlice";
+import getPersonalChats from "./getPersonalChats";
 
 
 export const UseSocket = () => {
 
     const selectedChat = useSelector(state=>state.Chat.chats.selectedChat);
-    
+    const personalChats = useSelector(state=>state.Chat.chats.personal);
     const dispatch = useDispatch();
 
     const connectSocket = (userId) => {
@@ -67,6 +68,15 @@ export const UseSocket = () => {
             }
         });
     };
+    
+    const listenToAddChat = (socket) => {
+        socket.on('AddChat',(data)=>{
+            console.log("lsitening to add chat on frontend with data" , data);
+            const currentState = AppStore.getState();
+            const personalChats = currentState.Chat.chats.personal || [];
+            dispatch(setPersonalChats([...personalChats, data]));
+        })
+    }
 
-    return { connectSocket, disconnectSocket, getOnlineUsers, listenToMessage, listenToTyping };
+    return { connectSocket, disconnectSocket, getOnlineUsers, listenToMessage, listenToTyping, listenToAddChat };
 };

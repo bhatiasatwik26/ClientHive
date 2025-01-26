@@ -1,7 +1,7 @@
     import  { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { MdPersonAdd } from "react-icons/md";
-const Modal = ({ setShowModal }) => {
+const Modal = ({ setShowModal,socket }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
@@ -19,7 +19,6 @@ const Modal = ({ setShowModal }) => {
             });
 
             const res = await response.json();
-            console.log(res);
             setResults(res.data);
         } else {
             setResults([]); 
@@ -45,12 +44,13 @@ const Modal = ({ setShowModal }) => {
             },
         });
         const data = await res.json();
-        console.log(data);
+        console.log("at modal", data);
         if(data.success==false){
             setChatexists(true);
         }
         else{
             toast.success("User Added Successfully");
+            socket.emit('AddChat',data.data)
         }     
     }
 

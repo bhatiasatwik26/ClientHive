@@ -43,6 +43,18 @@ io.on('connection', (socket)=>{
         io.to(targetSocketId).emit('typing', {emitterId, typingStatus});
     })
 
+    socket.on('AddChat',(data)=>{
+        console.log("sending data from backend",data);
+        const userId1 = data.users[0]._id;
+        const userId2 = data.users[1]._id;
+        console.log(userId1, userId2);
+        const targetSocketId1 = socketUserMap[userId1];
+        const targetSocketId2 = socketUserMap[userId2];
+        console.log('listening on addchat at backend');
+        io.to(targetSocketId1).emit('AddChat',data)
+        io.to(targetSocketId2).emit('AddChat',data)
+    })
+
 })
 
 export const getSocketIdFromUserId = (userId) => {

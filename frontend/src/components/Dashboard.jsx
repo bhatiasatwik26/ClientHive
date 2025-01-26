@@ -12,7 +12,7 @@ import { UseSocket } from "../hooks/UseSocket.jsx";
 
 const Dashboard = () => {
 
-    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToIncomingCall, listenToTyping} = UseSocket();
+    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToIncomingCall, listenToTyping, listenToAddChat} = UseSocket();
 
     const [socket, setSocket] = useState(null);
     
@@ -30,9 +30,12 @@ const Dashboard = () => {
     },[])
 
     useEffect(()=>{
+        if(socket){
             getOnlineUsers(socket);
             listenToMessage(socket);
             listenToTyping(socket);
+            listenToAddChat(socket);
+        }
             // listenToIncomingCall(socket);
         }, [socket])
 
@@ -47,7 +50,7 @@ const Dashboard = () => {
             <SideBar showModal={showModal} setShowModal={setShowModal}/>
             <div className="w-full p-5 pl-0 bg-[#1d2437]">
                 {components[index]}
-                {showModal ? <Modal setShowModal={setShowModal}/>:null}
+                {showModal ? <Modal setShowModal={setShowModal} socket={socket}/>:null}
                 {false && <CallModal />}
                 {/* {<ChatAnalysis />} */}
             </div>
