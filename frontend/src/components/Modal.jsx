@@ -44,7 +44,6 @@ const Modal = ({ setShowModal,socket }) => {
             },
         });
         const data = await res.json();
-        console.log("at modal", data);
         if(data.success==false){
             setChatexists(true);
         }

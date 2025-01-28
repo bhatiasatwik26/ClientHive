@@ -49,7 +49,6 @@ export const Chat = ({ socket }) => {
         targetId:chatUser[0]._id,
         typingStatus:false
       });
-      console.log('fetching messages');
     fetchMsg()
   },[chatId]); 
 

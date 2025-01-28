@@ -68,7 +68,6 @@ const Profile = () => {
       };
     } catch (err) {
       setError("Error in selecting photo");
-      console.log(err);
     }
   };
 

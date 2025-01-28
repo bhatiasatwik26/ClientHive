@@ -60,10 +60,13 @@ export const UseSocket = () => {
         if(!socket) 
             return
         socket.on('typing', ({emitterId, typingStatus}) => {
-            if(selectedChat.users[0]._id == emitterId 
+            const currentState = AppStore.getState();
+            const selectedChat = currentState.Chat.chats.selectedChat;
+            if(selectedChat != null && (
+                selectedChat.users[0]._id == emitterId 
                 || selectedChat.users[1]._id == emitterId)
+            )
             {
-                console.log('put in redux');
                 dispatch(setTyping({emitterId, typingStatus}));
             }
         });
@@ -71,7 +74,6 @@ export const UseSocket = () => {
     
     const listenToAddChat = (socket) => {
         socket.on('AddChat',(data)=>{
-            console.log("lsitening to add chat on frontend with data" , data);
             const currentState = AppStore.getState();
             const personalChats = currentState.Chat.chats.personal || [];
             dispatch(setPersonalChats([...personalChats, data]));

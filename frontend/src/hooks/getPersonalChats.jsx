@@ -18,7 +18,6 @@ const getPersonalChats = () => {
       credentials: 'include'
     });
     const data = await res.json();
-    console.log("inside get personal chat");
     dispatch(setPersonalChats(data.data));
   }
 }

@@ -12,7 +12,6 @@ export const validateSignUp = (req, res, next) =>{
         next();
 }
 export const validateSignIn = (req, res, next) =>{
-    console.log(req.body);
     const { email, password } = req.body;
     
     if(email === undefined || email == '')
