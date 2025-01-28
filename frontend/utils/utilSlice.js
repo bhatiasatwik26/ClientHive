@@ -15,9 +15,12 @@ const utilSlice = createSlice({
     isCallModalOpen: (state, action) => {
       state.utils.isCallModalOpen = action.payload;
     },
+    resetUtilSlice: (state) => {
+      state.utils = { index: 0, onlineList: [], isCallModalOpen: false};
+    },
   },
 });
 
-export const { setDashboardIndex, setOnlineUsers, isCallModalOpen } = utilSlice.actions;
+export const { setDashboardIndex, setOnlineUsers, isCallModalOpen, resetUtilSlice } = utilSlice.actions;
 
 export default utilSlice.reducer;

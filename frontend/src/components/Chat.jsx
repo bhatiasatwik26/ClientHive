@@ -20,11 +20,12 @@ import { PiHourglassMediumBold } from "react-icons/pi"
 import CallModal from './CallModal.jsx';
 import { isCallModalOpen } from '../../utils/utilSlice.js';
 import { markUnreadMsg } from '../../utils/userSlice.js';
-import { use } from 'react';
-
+import { TbKeyboardShow  } from "react-icons/tb";
+import { BsKeyboard } from "react-icons/bs";
 
 export const Chat = ({ socket }) => {
-  
+
+  const chatContainerRef = useRef(null); 
   const selectedChat = useSelector(state=>state.Chat.chats.selectedChat);
   const currUser = useSelector(state=>state.CurrUser.user._id);
   const chatUser = selectedChat.users.filter(user => user._id != currUser);
@@ -73,6 +74,11 @@ export const Chat = ({ socket }) => {
       });
   },[formData.text]);
   
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [currMsg]);
 
   const fetchMsg = async ()=>{
     dispatch(clearMsg());
@@ -128,10 +134,10 @@ export const Chat = ({ socket }) => {
     setPreview(null);
   }
   return (
-    <div id='chatContainer' className='h-full flex flex-1 flex-col items-center relative justify-start bg-[#222a3f] p-2 pb-1'>
-      <div className='w-full h-[10%] flex items-center gap-10 p-10 bg-[#1d2437] rounded-xl relative'>
+    <div id='chatContainer' className='h-full flex flex-1 flex-col items-center relative justify-start bg-[#222a3f] py-3 px-4 pb-1 shadow-inner'>
+      <div className='w-full h-[10%] flex items-center gap-10 p-10 bg-[#1d2437] rounded-xl relative shadow-sm'>
           <div className=' flex-1'>
-            <h1 className='text-xl capitalize text-white cursor-not-allowed'>
+            <h1 id='font1' className='text-xl capitalize text-white cursor-not-allowed'>
               {chatName}
             </h1>
           </div>
@@ -142,21 +148,17 @@ export const Chat = ({ socket }) => {
             }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <PiDotsThreeOutlineBold  className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
           </div>
-          <div id='id' className=' flex-1 text-right'>
-            <h2 className='lowercase text-[#ffffff50] cursor-not-allowed'>
+          <div id='menu' className=' flex-1 text-right'>
+            <h2 id='font3' className='lowercase text-[#ffffff50] cursor-not-allowed'>
               {chatEmail}
             </h2>
           </div>
-          {
-            typing && typing.emitterId == chatUser[0]._id &&
-            typing.typingStatus &&
-            <p className='absolute left-0 top-0'>
-              typing
-            </p>
-          }
       </div>
 
-      <div className=' w-full flex-1 flex flex-col justify-center items-center gap-7 p-10 overflow-y-scroll'>
+      <div id='scrollarea' ref={chatContainerRef} className='w-full flex-1 flex flex-col items-center gap-5 p-10 px-14 justify-start overflow-y-scroll pb-16'>
+        <p id='font3' className='bg-[#1d243774] text-[#ffffff1a] px-2 py-1 text-sm font-light shadow-inner rounded-xl'>
+          We respect your privacy🔐 
+        </p>
         {
           currMsg.map((msg,index)=>(
             msg.senderId == chatUser[0]._id ? 
@@ -164,6 +166,11 @@ export const Chat = ({ socket }) => {
             <Outgoing msg={msg.text} img={msg.image} key={Math.random()}/>
           ))
         }
+        {
+            typing && typing.emitterId == chatUser[0]._id &&
+            typing.typingStatus &&
+            <Incoming msg={<BsKeyboard/>} key={Math.random()} type={'type'}/>
+          }
       </div>
 
       <form onSubmit={handleSend} className='w-full h-[10%] flex items-center gap-10 p-10 px-6  rounded-xl max-w-[1000px] justify-center relative'>
@@ -177,9 +184,9 @@ export const Chat = ({ socket }) => {
               onClick={clearImg}/>
             </div>
           }
-          <input type="text" placeholder={loading ? 'Sending...' :'Your message here'} value={formData.text} 
+          <input id='font2' type="text" placeholder={loading ? 'Sending...' :'Your message here'} value={formData.text} 
           onChange={ (e)=>{setFormData({...formData, text:e.target.value })} } disabled={loading}
-          className='placeholder:text-[#ffffff4b] w-[100%]  text-lg bg-[#1d2437] pl-5 pr-10 py-3 text-white rounded-md outline-none focus:outline-[#dd1d5d1c] duration-200 disabled:cursor-not-allowed'/>
+          className='placeholder:text-[#ffffff4b] w-[100%]  text-lg bg-[#1d2437] pl-5 pr-10 py-3 text-white rounded-md outline-none focus:outline-[#dd1d5d1c] duration-200 disabled:cursor-not-allowed shadow-inner'/>
           <p className=' text-[#dd1d5d61] absolute right-2 top-1/2 -translate-x-[50%] -translate-y-1/2 '>
             {onlineUsers.includes(chatUser[0]._id) ? <MdCloudQueue/> : <MdCloudOff />}
           </p>

@@ -72,11 +72,11 @@ const Profile = () => {
   };
 
   return (
-    <div className="h-full flex flex-col items-center justify-start bg-[#222a3f] p-6 rounded-xl">
+    <div className="h-full flex flex-col items-center justify-start bg-[#222a3f] p-6 rounded-xl shadow-inner">
       <div className="w-full h-full rounded-2xl overflow-hidden">
-        <div className="w-full h-[25vh] relative mb-16 rounded-xl">
-          <img src="https://images.unsplash.com/photo-1493166228553-4fa0fdb916e8?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="logo" className="h-full w-full object-cover object-center"/>
-          <div className="absolute w-full bottom-0 left-0 translate-y-[47%] flex items-end gap-4 p-4">
+        <div className="w-full h-[25vh] relative mb-[70px] rounded-xl ">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="logo" className="h-full w-full object-cover object-center"/>
+          <div className="absolute w-full -bottom-1 left-0 translate-y-[47%] flex items-end gap-4 p-4">
             <div className="relative group cursor-pointer">
               <img
                 src={photo}
@@ -89,10 +89,10 @@ const Profile = () => {
               </div>
             </div>
             <div className="flex flex-col gap-1 text-white">
-              <p className="text-3xl font-semibold capitalize">
+              <p id="font1" className="text-3xl font-semibold capitalize">
                 {username} 
               </p>
-              <p className="text-[#ffffff15] text-sm">{_id}</p>
+              <p id="font3" className="text-[#ffffff1e] text-sm">{_id}</p>
             </div>
           </div>
         </div>
@@ -106,21 +106,21 @@ const Profile = () => {
             className="hidden"
           />
 
-          <div className="bg-[#1d2437] p-6 rounded-b-2xl w-full flex flex-col justify-start gap-6">
+          <div className="bg-[#1d2437] p-6 rounded-b-2xl w-full flex flex-col justify-start gap-5">
             <div className="w-full flex items-center justify-between px-4 border-b-2 pb-3 border-b-[#222a3f]">
-              <p className="text-xl text-[#dd1d5d]">Email :</p>
-              <p className="text-white">{email}</p>
+              <p id="font2" className="text-xl text-[#dd1d5d]">Email :</p>
+              <p id="font3" className="text-white">{email}</p>
             </div>
             <div className="w-full flex items-center justify-between px-4 border-b-2 pb-3 border-b-[#222a3f]">
-              <p className="text-xl text-[#dd1d5d]">User since :</p>
-              <p className="text-white">{readableDate}</p>
+              <p id="font2" className="text-xl text-[#dd1d5d]">User since :</p>
+              <p id="font3"  className="text-white">{readableDate}</p>
             </div>
             <div className="px-3">
               <div className="flex items-center justify-between mb-3 px-1">
-                <span className="text-[#dd1d5d] text-xl">About me :</span>
+                <span id="font2" className="text-[#dd1d5d] text-xl">About me :</span>
               </div>
               <textarea
-                id="description"
+                id="font3"
                 defaultValue={description}
                 onChange={handleDataChange}
                 spellCheck="false"
@@ -131,7 +131,8 @@ const Profile = () => {
             <button
               onClick={updateProfile}
               disabled={loading}
-              className={` bg-[#dd1d5d] text-white py-2 px-3 rounded-md disabled:opacity-70 disabled:cursor-not-allowed hover:bg-[#dd1d5daf] duration-200 ease-in-out self-center text-lg`}
+              id="font3"
+              className={` bg-[#dd1d5d] text-white py-2 px-3 rounded-md disabled:opacity-70 disabled:cursor-not-allowed hover:bg-[#dd1d5daf] duration-200 ease-in-out self-center`}
             >
               {loading ? "Updating..." : "Update Profile"}
             </button>

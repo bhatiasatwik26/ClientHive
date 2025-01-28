@@ -23,24 +23,25 @@ const App = () => {
           toastOptions={{
             success: {
               style: {
-                backgroundColor: '#222a3f',
+                backgroundColor: '#1d2437',
                 color: 'white',
                 padding: '12px 24px',
                 borderRadius: '8px',
                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                border: '1px solid #dd1d5d',
+                border: '2px solid green',
               },
-              duration: 5000,
+              duration: 2500,
             },
             error: {
               style: {
-                backgroundColor: '#222a3f',
-                color: 'rgb(213, 29, 29)',
+                backgroundColor: '#1d2437',
+                color: 'white',
                 padding: '12px 24px',
                 borderRadius: '8px',
-                border: '1px solid #dd1d5d',
+                boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.1)',
+                border: '2px solid red',
               },
-              duration: 4000,
+              duration: 1500,
             },
           }}
         />

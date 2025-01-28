@@ -12,8 +12,8 @@ const userSlice = createSlice({
     updateUser: (state, action) => {
       state.user = {...state.user, ...action.payload};
     },
-    resetUser: (state) => {
-      state.user = {};
+    resetUserSlice: (state) => {
+      state.user = {unreadMsg: {}};
     },
     setUnreadMsg: (state, action) => {
       let prevCount = state.user.unreadMsg[action.payload];
@@ -25,6 +25,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { signInSuccess, updateUser, resetUser, setUnreadMsg, markUnreadMsg } = userSlice.actions;
+export const { signInSuccess, updateUser, resetUserSlice, setUnreadMsg, markUnreadMsg } = userSlice.actions;
 
 export default userSlice.reducer;

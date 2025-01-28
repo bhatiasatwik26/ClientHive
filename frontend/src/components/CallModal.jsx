@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { isCallModalOpen } from '../../utils/utilSlice.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetSlice } from '../../utils/callSlice.js'
+// import { resetSlice } from '../../utils/callSlice.js'
 import { UseSocket } from '../hooks/UseSocket.jsx'
 
 const CallModal = () => {

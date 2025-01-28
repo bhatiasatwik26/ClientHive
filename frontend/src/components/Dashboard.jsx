@@ -5,7 +5,6 @@ import SideBar from "./Sidebar.jsx";
 import ChatWindow from "./ChatWIndow.jsx";
 import Modal from "./Modal.jsx";
 import CallModal from "./CallModal.jsx";
-import ChatAnalysis from "./ChatAnalysis.jsx";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import { UseSocket } from "../hooks/UseSocket.jsx";
@@ -25,6 +24,7 @@ const Dashboard = () => {
     const userId = useSelector(state=>state.CurrUser.user._id);
 
     useEffect(()=>{
+        toast.success("Welcome "+currUser.username+" !!!");   
         setSocket(connectSocket(userId));
         return ()=>{disconnectSocket(socket)};
     },[])
@@ -48,7 +48,7 @@ const Dashboard = () => {
     return (
         <div className="w-full h-full flex">
             <SideBar showModal={showModal} setShowModal={setShowModal}/>
-            <div className="w-full p-5 pl-0 bg-[#1d2437]">
+            <div className="w-full p-6 pl-0 bg-[#1d2437]">
                 {components[index]}
                 {showModal ? <Modal setShowModal={setShowModal} socket={socket}/>:null}
                 {false && <CallModal />}

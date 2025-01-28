@@ -3,14 +3,14 @@ import { HiUserAdd } from "react-icons/hi";
 import { ImHome } from "react-icons/im";
 import { IoLogOut } from "react-icons/io5";
 import { HiChatBubbleBottomCenterText } from "react-icons/hi2";
-import { isCallModalOpen, setDashboardIndex, setOnlineUsers,  } from '../../utils/utilSlice';
+import { isCallModalOpen, resetUtilSlice, setDashboardIndex, setOnlineUsers,  } from '../../utils/utilSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import getPersonalChats from '../hooks/getPersonalChats';
 import { UseSocket } from '../hooks/UseSocket';
-import { resetUser, signInSuccess } from '../../utils/userSlice.js';
+import { resetUserSlice } from '../../utils/userSlice.js';
 import logo from '../assets/logo.png';
-import { Navigate, useNavigate } from 'react-router-dom';
-import { setSelectedChat } from '../../utils/chatSlice.js';
+import { Navigate } from 'react-router-dom';
+import { resetChatSlice } from '../../utils/chatSlice.js';
 const Sidebar = ({showModal,setShowModal}) => {
     getPersonalChats()
     const dispatch = useDispatch();
@@ -18,10 +18,9 @@ const Sidebar = ({showModal,setShowModal}) => {
     const index = useSelector(state=>state.GlobalUtil.utils.index);
 
     const handleLogout = async()=>{ 
-        dispatch(resetUser())
-        dispatch(setSelectedChat(null)); 
-        dispatch(setDashboardIndex(0));
-        dispatch(isCallModalOpen(false));
+        dispatch(resetUserSlice())
+        dispatch(resetChatSlice())
+        dispatch(resetUtilSlice())
         const response = await fetch(`${import.meta.env.VITE_API_PATH}/api/auth/logout`,{
             method: 'POST',
             credentials: 'include',
@@ -41,14 +40,13 @@ const Sidebar = ({showModal,setShowModal}) => {
     return (
         <div className='w-[65px] flex flex-col bg-[#1d2437] items-center justify-center gap-16 py-9 px-4 relative'>
             <div className='w-16 h-16 absolute left-0 top-2'>
-                <img src={logo} alt='logo' className='w-full h-full object-fill rounded-lg scale-[105%]'/>
+                <img src={logo} alt='logo' className='w-full h-full object-fill rounded-lg scale-[110%]'/>
             </div>
             
             <ImHome id='0' onClick={()=>dispatch(setDashboardIndex(0))} className={` duration-100 ease-in-out cursor-pointer text-2xl ${index == 0 ? 'text-[#dd1d5d]' : 'text-white'}`}/>
             <HiChatBubbleBottomCenterText id='1' onClick={()=>dispatch(setDashboardIndex(1))} className={` duration-100 ease-in-out cursor-pointer text-2xl ${index == 1 ? 'text-[#dd1d5d]' : 'text-white'}`}/>
             <HiUserAdd id='3' onClick={()=>handleClick()} className={` duration-100 ease-in-out cursor-pointer text-2xl hover:text-[#dd1d5deb] text-white`}/>
             <IoLogOut id='4' onClick={handleLogout} className='text-red-600 text-2xl cursor-pointer hover:text-red-800 duration-150 ease-in-out'/>
-            {/* <p className='text-white text-xl'>{user._id}</p>  */}
         </div>
     );
 }

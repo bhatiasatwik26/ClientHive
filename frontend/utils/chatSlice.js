@@ -27,10 +27,13 @@ const chatSlice = createSlice({
     },
     setTyping: (state, action) => {
       state.chats = {...state.chats, typing: action.payload};
-    }
+    },
+    resetChatSlice : (state) => {
+      state.chats = {personal: [], typing: null, selectedChat: null, currMsg: []};
+    }   
   }
 });
 
-export const { setPersonalChats, setGroupChats, setSelectedChat, updateCurrMsg, clearMsg, setTyping } = chatSlice.actions;
+export const { setPersonalChats, setGroupChats, setSelectedChat, updateCurrMsg, clearMsg, setTyping, resetChatSlice } = chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -23,9 +23,9 @@ const Chatlist = () => {
         dispatch(setSelectedChat(chat));
     }
     return (
-        <div id='sidebar' className='w-[300px] flex flex-col items-start justify-between duration-300 px-4 py-9 bg-[#222a3f] h-full gap-10'>
+        <div id='sidebar' className='w-[300px] flex flex-col items-start justify-between duration-300 px-4 py-9 bg-[#222a3f] h-full gap-10 shadow-inner'>
             <div className=' w-[100%] overflow-hidden flex flex-col items-start justify-start flex-1 ' onClick={()=>dispatch(setDashboardIndex(1))}>
-                <p className={` text-white self-center text-xl font-medium
+                <p id='font1' className={` text-white self-center text-xl font-medium
                     ${selectedChat?.isGroupChat === false ? 'tracking-wider' : ''}`}>
                 Your Chats
                 </p>
@@ -34,13 +34,13 @@ const Chatlist = () => {
                 (!personalChats || personalChats.length === 0) &&
                     <div className='w-full flex flex-col gap-3 items-center justify-center'>
                         <div className={`flex justify-center items-center cursor-not-allowed w-full h-[55px] bg-[#1d243785] overflow-hidden rounded-md `}>
-                            <p className='text-[#ffffff97]'>Wow...It looks soooo empty</p>
+                            <p id='font2' className='text-[#ffffff97]'>Wow...It looks sooo empty</p>
                         </div>
                         <div className={`flex justify-center items-center cursor-not-allowed w-full h-[55px] bg-[#1d243785] p-2 rounded-md `}>
-                            <p className='text-[#ffffff97] flex items-center justify-center gap-2'> Click on<HiUserAdd /> to start a new chat.</p>
+                            <p id='font2' className='text-[#ffffff97] flex items-center justify-center gap-2'> Click on<HiUserAdd /> to create a new chat.</p>
                         </div>
                         <div className={`flex justify-center items-center cursor-not-allowed w-full h-[55px] bg-[#1d243785] p-2 rounded-md `}>
-                            <p className='text-[#ffffff97] flex items-center justify-center gap-2'>Click on <ImHome /> to view your profile.</p>
+                            <p id='font2' className='text-[#ffffff97] flex items-center justify-center gap-2'>Click on <ImHome /> to view your profile.</p>
                         </div>
                     </div>
                 }
@@ -55,7 +55,7 @@ const Chatlist = () => {
                         } 
                         className='w-full h-full object-cover rounded-full'/>
                         </div>
-                        <h2 className={`text-white capitalize`}>{chat.users[0]._id===user._id ?
+                        <h2 id='font3' className={`text-white capitalize`}>{chat.users[0]._id===user._id ?
                             chat.users[1].username :
                             chat.users[0].username
                         }
