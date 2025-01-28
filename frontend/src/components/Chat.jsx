@@ -31,6 +31,7 @@ export const Chat = ({ socket }) => {
   const chatUser = selectedChat.users.filter(user => user._id != currUser);
   const chatName = chatUser[0].username;
   const chatPhoto = chatUser[0].photo;
+  const currUserPhoto = useSelector(state=>state.CurrUser.user.photo);
   const chatId = selectedChat._id;
   const chatEmail = chatUser[0].email;
   const [formData, setFormData] = useState({ text:"", image:""});
@@ -119,33 +120,16 @@ export const Chat = ({ socket }) => {
     if(loading) return;
     setLoading(true);
     setMessageschedule(false);
-    const delay = parseInt(scheduledata) || 0; // Parse delay as integer, default to 0 if empty
-
-    // If there is a delay, schedule the message
+    const delay = parseInt(scheduledata) || 0; 
+    formData['delay'] = delay
+    
     if (delay > 0) {
         toast.success(`Message scheduled for ${delay} minute(s).`);
-
-        // Schedule the message with setTimeout
-        setTimeout(async () => {
-            await sendMessageAPI(); // Call the API after the delay
-            toast.success("Scheduled message sent.");
-        }, delay * 60 * 1000); // Convert delay from minutes to milliseconds
-
-        // Reset input fields
-        setFormData({ image: "", text: "" });
-        setPreview(null);
-        setScheduledata(""); // Clear delay input
-        setLoading(false);
-    } else {
-        // Send the message immediately if no delay
-        await sendMessageAPI();
-        toast.success("Message sent.");
-
-        // Reset input fields
-        setFormData({ image: "", text: "" });
-        setPreview(null);
-        setLoading(false);
     }
+        await sendMessageAPI();
+        setFormData({ image: "", text: "" });
+        setPreview(null);
+        setLoading(false);
 };
 
   const sendMessageAPI = async () => {
@@ -173,6 +157,9 @@ export const Chat = ({ socket }) => {
     setFormData({...formData, image:''});
     setPreview(null);
   }
+  console.log("apna photo",currUserPhoto);
+  console.log("samnevale ka photo",chatPhoto);
+  
   return (
     <div id='chatContainer' className='h-full flex flex-1 flex-col items-center relative justify-start bg-[#222a3f] py-3 px-4 pb-1 shadow-inner'>
       <div className='w-full h-[10%] flex items-center gap-10 p-10 bg-[#1d2437] rounded-xl relative shadow-sm'>
@@ -201,9 +188,9 @@ export const Chat = ({ socket }) => {
         </p>
         {
           currMsg.map((msg,index)=>(
-            msg.senderId == chatUser[0]._id ? 
-            <Incoming msg={msg.text} img={msg.image}  key={Math.random()}/> :
-            <Outgoing msg={msg.text} img={msg.image} key={Math.random()}/>
+            msg && msg.senderId == chatUser[0]._id ? 
+            <Incoming msg={msg.text} img={msg.image} chatPhoto={chatPhoto}  key={Math.random()}/> :
+            <Outgoing msg={msg.text} img={msg.image} currUserPhoto={currUserPhoto} key={Math.random()}/>
           ))
         }
         {

@@ -28,7 +28,8 @@ export const getAllMessageOf2Users = async (req, res, next) => {
 
 // send msg to a specific user...
 export const sendMessage = async (req, res, next) => {
-    const {text, image} = req.body;
+    const {text, image, delay} = req.body;
+    console.log(delay);
     const receiverId = req.params.id;
     const senderId = req.userId;
     let photoUrl;
@@ -48,7 +49,16 @@ export const sendMessage = async (req, res, next) => {
             text,
             image: photoUrl
         })
-        await newMsg.save();
+
+        if(delay!=0){
+                setTimeout(async() => {
+                    await newMsg.save();
+                }, delay*60*1000)
+        }
+        else{
+            await newMsg.save();
+        }
+
         io.to(getSocketIdFromUserId(senderId)).emit('recieveMessage', newMsg);
         if(getSocketIdFromUserId(receiverId))
             io.to(getSocketIdFromUserId(receiverId)).emit('recieveMessage', newMsg);
