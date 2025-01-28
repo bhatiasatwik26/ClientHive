@@ -20,7 +20,9 @@ const userSlice = createSlice({
       state.user = {...state.user, unreadMsg: {...state.user.unreadMsg, [action.payload]: prevCount ? prevCount+1 : 1}};
     },
     markUnreadMsg: (state, action) => {
-     delete state.user.unreadMsg[action.payload]
+      if (state.user.unreadMsg && action.payload in state.user.unreadMsg) {
+        delete state.user.unreadMsg[action.payload];
+    }
     }
   },
 });

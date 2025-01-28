@@ -40,6 +40,8 @@ export const Chat = ({ socket }) => {
   const dispatch = useDispatch();
   const currMsg = useSelector(state=>state.Chat.chats.currMsg);
   const [loading, setLoading] = useState(false);
+  const [messageschedule, setMessageschedule] = useState(false);
+  const [scheduledata, setScheduledata] = useState("");
   const typing = useSelector(state=>state.Chat.chats.typing);
 
   // fetching all messages of this chat
@@ -116,19 +118,57 @@ export const Chat = ({ socket }) => {
       return; 
     if(loading) return;
     setLoading(true);
-    const res = await fetch(`${import.meta.env.VITE_API_PATH}/api/message/${chatUser[0]._id}`,{
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-    setFormData({image:'', text:''});
-    setPreview(null);
-    const data = await res.json();
-    setLoading(false);
-  }
+    setMessageschedule(false);
+    const delay = parseInt(scheduledata) || 0; // Parse delay as integer, default to 0 if empty
+
+    // If there is a delay, schedule the message
+    if (delay > 0) {
+        toast.success(`Message scheduled for ${delay} minute(s).`);
+
+        // Schedule the message with setTimeout
+        setTimeout(async () => {
+            await sendMessageAPI(); // Call the API after the delay
+            toast.success("Scheduled message sent.");
+        }, delay * 60 * 1000); // Convert delay from minutes to milliseconds
+
+        // Reset input fields
+        setFormData({ image: "", text: "" });
+        setPreview(null);
+        setScheduledata(""); // Clear delay input
+        setLoading(false);
+    } else {
+        // Send the message immediately if no delay
+        await sendMessageAPI();
+        toast.success("Message sent.");
+
+        // Reset input fields
+        setFormData({ image: "", text: "" });
+        setPreview(null);
+        setLoading(false);
+    }
+};
+
+  const sendMessageAPI = async () => {
+    try {
+        const res = await fetch(`${import.meta.env.VITE_API_PATH}/api/message/${chatUser[0]._id}`, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+        console.log(data);
+        
+    } catch (err) {
+        console.error("Error sending message:", err);
+        toast.error("Failed to send message.");
+    }
+};
+
+
+
   const clearImg = ()=>{
     setFormData({...formData, image:''});
     setPreview(null);
@@ -174,7 +214,11 @@ export const Chat = ({ socket }) => {
       </div>
 
       <form onSubmit={handleSend} className='w-full h-[10%] flex items-center gap-10 p-10 px-6  rounded-xl max-w-[1000px] justify-center relative'>
-        <BsClockHistory className='text-[#dd1d5d80] text-[24px] hover:text-[#dd1d5d] duration-150 cursor-pointer'/>
+        <BsClockHistory onClick={()=>setMessageschedule(!messageschedule)} className='text-[#dd1d5d80] text-[24px] hover:text-[#dd1d5d] duration-150 cursor-pointer'/>
+        {messageschedule &&
+         (<input type='number' placeholder='Enter value in minutes' value={scheduledata}
+            onChange={(e)=>{setScheduledata(e.target.value)}}
+        />)}
         <div className='flex-1 flex items-center justify-center relative'>
           {
             preview && 
