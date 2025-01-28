@@ -1,0 +1,152 @@
+[33mcommit 03c783780838788fea6d43ab2637f45949722199[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Wed Jan 29 00:00:38 2025 +0530
+
+    msgui
+
+[33mcommit 0b95af870c3446f4727bc3ce0c4da031727aac46[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Tue Jan 28 20:44:53 2025 +0530
+
+    123
+
+[33mcommit d3b674fa21b88708634a7697f64a23fc17df6372[m
+Merge: 690a4a4 8e02c40
+Author: Satwik bhatia <satwikbhatia26@gmail.com>
+Date:   Tue Jan 28 20:13:50 2025 +0530
+
+    Merge pull request #3 from bhatiasatwik26/schedule
+    
+    message schedule
+
+[33mcommit 690a4a4e15c31f1169797f4340e26214334821b2[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Tue Jan 28 19:56:10 2025 +0530
+
+    ui change
+
+[33mcommit 8e02c4004260740a96b99b4446146d88a28affb6[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Tue Jan 28 13:32:20 2025 +0530
+
+    message schedule
+
+[33mcommit 67b8fbf30e7bbff73e325b0f0e2e6816476e1de5[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Tue Jan 28 13:25:59 2025 +0530
+
+    typing
+
+[33mcommit 2048ee8aa0e470bc443df12c8e3c9ca1deb622cc[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Sun Jan 26 22:29:40 2025 +0530
+
+    chatlistsocket
+
+[33mcommit 4fa055efcbb92a8657fd6b2609071139771d333e[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Sun Jan 26 16:20:54 2025 +0530
+
+    typing/unread
+
+[33mcommit 038980f75e478246d8d0c3eb5e0d2ed1d983c660[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Sat Jan 25 20:06:38 2025 +0530
+
+    logout
+
+[33mcommit 003e81457205d647ef6cfa3c5822250a132bf080[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Sat Jan 25 03:43:15 2025 +0530
+
+    cosmetic changes
+
+[33mcommit 705cabda321c309b71b3e59ee935a62e8363e959[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Mon Jan 20 11:34:51 2025 +0530
+
+    gautam
+
+[33mcommit 773490404a1b08810dab45b934963440584a28b3[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Sat Jan 18 21:28:34 2025 +0530
+
+    satwik commit
+
+[33mcommit b0a412576728f6ddcb9b2e1842fb60a8ca17e2ca[m
+Merge: 7855880 51739c3
+Author: Gautam Aggarwal <143955565+GautamAggarwal-05@users.noreply.github.com>
+Date:   Fri Jan 17 11:04:55 2025 +0530
+
+    Merge pull request #2 from bhatiasatwik26/branch1
+    
+    modalupdate
+
+[33mcommit 51739c3f14c481b9d8a2e661599abe1f72b812cd[m[33m ([m[1;31morigin/branch1[m[33m)[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Fri Jan 17 11:00:39 2025 +0530
+
+    modalupdate
+
+[33mcommit 7855880ba8211b6bcac6329728723538e1faf1c1[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Thu Jan 16 02:10:03 2025 +0530
+
+    fixed msg issue/ui/img upload/loading
+
+[33mcommit 19b8bbca75a284158440fedbf3078e8fa20a13ea[m
+Merge: c899fe2 5a0ac15
+Author: Satwik bhatia <satwikbhatia26@gmail.com>
+Date:   Tue Jan 14 11:33:29 2025 +0530
+
+    Merge pull request #1 from bhatiasatwik26/gautam
+    
+    incoming/outgoing
+
+[33mcommit 5a0ac153ae4719d832b189f562412ccaa1cfcc1a[m[33m ([m[1;31morigin/gautam[m[33m)[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Tue Jan 14 11:31:26 2025 +0530
+
+    incoming/outgoing
+
+[33mcommit c899fe22edc1b7f796b62fd11a1397458e185b97[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Tue Jan 14 11:29:57 2025 +0530
+
+    modified ui
+
+[33mcommit 793fababd69b8017399f8725849011b1ab6c694a[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Mon Jan 13 15:22:54 2025 +0530
+
+    fixed no chat error
+
+[33mcommit af2b0bfd710e180384bcf99bbf384c39dd8dc374[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Mon Jan 13 15:09:20 2025 +0530
+
+    changed ui
+
+[33mcommit e5786b72383a2a198d36e3686f4c2056b493b510[m
+Author: Gautam Aggarwal-05 <aggarwalgautam06@gmail.com>
+Date:   Mon Jan 13 10:41:04 2025 +0530
+
+    profileUpdateGautam
+
+[33mcommit e7b9c8a6af32f4727c1f13040da181fe2ab7ae54[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Sat Jan 11 13:58:48 2025 +0530
+
+    chat header
+
+[33mcommit 10f09d05ab449169123f215e3fbaf40d17f1e3c2[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Fri Jan 10 16:49:39 2025 +0530
+
+    sidebar ui
+
+[33mcommit eecc39e2feed8ca22dcb2bf4aede6c527aef1fa4[m
+Author: Satwik Bhatia <satwikbhatia26@gmail.com>
+Date:   Thu Jan 9 15:55:17 2025 +0530
+
+    auth/profile/chatUI/chatbackend
