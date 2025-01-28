@@ -74,15 +74,15 @@ const Profile = () => {
   return (
     <div className="h-full flex flex-col items-center justify-start bg-[#222a3f] p-6 rounded-xl shadow-inner">
       <div className="w-full h-full rounded-2xl overflow-hidden">
-        <div className="w-full h-[25vh] relative mb-[70px] rounded-xl ">
+        <div className="w-full h-[25vh] relative mb-[70px] rounded-xl  ">
           <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="logo" className="h-full w-full object-cover object-center"/>
           <div className="absolute w-full -bottom-1 left-0 translate-y-[47%] flex items-end gap-4 p-4">
-            <div className="relative group cursor-pointer">
+            <div className="relative group cursor-pointer mt-1">
               <img
                 src={photo}
                 alt="userlogo"
                 onClick={() => ref.current.click()}
-                className="w-32 h-32 rounded-full object-cover border-4 border-[#222a3f]"
+                className="w-32 h-32 rounded-full object-cover border-[6px] border-[#222a3f]"
               />
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-4xl text-white bg-black bg-opacity-85 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
                 <TbPhotoUp className="text-[#dd1d5d] hover:scale-105 duration-100" />
@@ -124,9 +124,10 @@ const Profile = () => {
                 defaultValue={description}
                 onChange={handleDataChange}
                 spellCheck="false"
-                className="w-full p-3 bg-[#222a3f] text-white rounded-md resize-none border-2 border-[#fff0] focus:border-opacity-20 outline-none min-h-[120px]"
+                className="w-full p-3 bg-[#222a3f] text-white rounded-lg resize-none border-2 border-[#fff0] focus:border-opacity-20 outline-none min-h-[120px]"
                 placeholder="Add description here..."
-              ></textarea>
+              >
+              </textarea>
             </div>
             <button
               onClick={updateProfile}
