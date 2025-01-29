@@ -22,6 +22,7 @@ import { isCallModalOpen } from '../../utils/utilSlice.js';
 import { markUnreadMsg } from '../../utils/userSlice.js';
 import { TbKeyboardShow  } from "react-icons/tb";
 import { BsKeyboard } from "react-icons/bs";
+import Delayed from './Delayed.jsx';
 
 export const Chat = ({ socket }) => {
 
@@ -41,7 +42,7 @@ export const Chat = ({ socket }) => {
   const currMsg = useSelector(state=>state.Chat.chats.currMsg);
   const [loading, setLoading] = useState(false);
   const [messageschedule, setMessageschedule] = useState(false);
-  const [scheduledata, setScheduledata] = useState("");
+  const [scheduledata, setScheduledata] = useState(0);
   const typing = useSelector(state=>state.Chat.chats.typing);
 
   // fetching all messages of this chat
@@ -119,36 +120,21 @@ export const Chat = ({ socket }) => {
     if(loading) return;
     setLoading(true);
     setMessageschedule(false);
-    const delay = parseInt(scheduledata) || 0; // Parse delay as integer, default to 0 if empty
-
-    // If there is a delay, schedule the message
-    if (delay > 0) {
-        toast.success(`Message scheduled for ${delay} minute(s).`);
-
-        // Schedule the message with setTimeout
-        setTimeout(async () => {
-            await sendMessageAPI(); // Call the API after the delay
-            toast.success("Scheduled message sent.");
-        }, delay * 60 * 1000); // Convert delay from minutes to milliseconds
-
-        // Reset input fields
-        setFormData({ image: "", text: "" });
-        setPreview(null);
-        setScheduledata(""); // Clear delay input
-        setLoading(false);
-    } else {
-        // Send the message immediately if no delay
-        await sendMessageAPI();
-        toast.success("Message sent.");
-
-        // Reset input fields
-        setFormData({ image: "", text: "" });
-        setPreview(null);
-        setLoading(false);
+    const delay = parseInt(scheduledata) || 0; 
+    formData['delay'] = delay;
+    if (delay > 0) 
+        toast.success(`Message scheduled for ${delay} minute(s).`); 
+    if(scheduledata)
+      await sendDelayMsg();
+    else
+      await sendNormalMsg();
+    setFormData({ image: "", text: "" });
+    setPreview(null);
+    setLoading(false);
+    formData['delay']=0;
     }
-};
 
-  const sendMessageAPI = async () => {
+  const sendNormalMsg = async () => {
     try {
         const res = await fetch(`${import.meta.env.VITE_API_PATH}/api/message/${chatUser[0]._id}`, {
             method: "POST",
@@ -167,12 +153,31 @@ export const Chat = ({ socket }) => {
     }
 };
 
+const sendDelayMsg = async () => {
+  try {
+      const res = await fetch(`${import.meta.env.VITE_API_PATH}/api/message/delay/${chatUser[0]._id}`, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      
+  } catch (err) {
+      console.error("Error sending message:", err);
+      toast.error("Failed to send message.");
+  }
+};
+
 
 
   const clearImg = ()=>{
     setFormData({...formData, image:''});
     setPreview(null);
   }
+
   return (
     <div id='chatContainer' className='h-full flex flex-1 flex-col items-center relative justify-start bg-[#222a3f] py-3 px-4 pb-1 shadow-inner'>
       <div className='w-full h-[10%] flex items-center gap-10 p-10 bg-[#1d2437] rounded-xl relative shadow-sm'>
@@ -195,17 +200,19 @@ export const Chat = ({ socket }) => {
           </div>
       </div>
 
-      <div id='scrollarea' ref={chatContainerRef} className='w-full flex-1 flex flex-col items-center gap-5 p-10 px-14 justify-start overflow-y-scroll pb-16'>
-        <p id='font3' className='bg-[#1d243774] text-[#ffffff1a] px-2 py-1 text-sm font-light shadow-inner rounded-xl'>
-          We respect your privacy🔐 
+      <div id='scrollarea' ref={chatContainerRef} className='w-full flex-1 flex flex-col items-center gap-4 p-10 px-14 justify-start overflow-y-scroll pb-16'>
+        <p id='font3' className='bg-[#1d243774] text-[#ffffff26] px-2 py-1 text-sm font-light shadow-inner rounded-xl'>
+        🔃 After delayed message is delivered, refresh to remove marker. 
         </p>
         {
-          currMsg.map((msg,index)=>(
-            msg.senderId == chatUser[0]._id ? 
-            <Incoming msg={msg.text} img={msg.image}  key={Math.random()}/> :
-            <Outgoing msg={msg.text} img={msg.image} key={Math.random()}/>
-          ))
-        }
+            currMsg.length > 0 && currMsg.map((msg,index)=>(
+              msg.type == 'delay' ? 
+              <Delayed msg={msg.text} img={msg.image} key={msg._id}/> :
+              msg.senderId == chatUser[0]._id ? 
+              <Incoming msg={msg.text} img={msg.image}  key={msg._id}/> :
+              <Outgoing msg={msg.text} img={msg.image} key={msg._id}/>
+            ))
+          }
         {
             typing && typing.emitterId == chatUser[0]._id &&
             typing.typingStatus &&

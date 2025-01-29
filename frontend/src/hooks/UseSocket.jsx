@@ -40,8 +40,8 @@ export const UseSocket = () => {
             return
         socket.on('recieveMessage', (msg) => {
             const currentState = AppStore.getState();
-            const activeChatUsers = currentState.Chat.chats.selectedChat.users;
-            if(msg.senderId == activeChatUsers[0]._id || msg.senderId == activeChatUsers[1]._id)
+            const activeChat = currentState.Chat.chats.selectedChat;
+            if(activeChat && ( msg.senderId == activeChat.users[0]._id || msg.senderId == activeChat.users[1]._id) )
                 dispatch(updateCurrMsg(msg));
             else
                 dispatch(setUnreadMsg(msg.senderId));

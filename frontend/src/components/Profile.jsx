@@ -8,6 +8,7 @@ import { TiInfoLarge } from "react-icons/ti";
 import { MdEmail } from "react-icons/md";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
+import { getRandomBanners } from "../../utils/getRandomBanner";
 
 const Profile = () => {
   const user = useSelector((state) => state.CurrUser.user);
@@ -18,6 +19,8 @@ const Profile = () => {
   const [redirect, setRedirect] = useState(false); 
   const dispatch = useDispatch();
   dispatch(setSelectedChat(null));
+  
+  const banner =  getRandomBanners(); 
 
   if (Object.keys(user).length === 0) {
     return <Navigate to="/sign-up" replace /> 
@@ -75,7 +78,7 @@ const Profile = () => {
     <div className="h-full flex flex-col items-center justify-start bg-[#222a3f] p-6 rounded-xl shadow-inner">
       <div className="w-full h-full rounded-2xl overflow-hidden">
         <div className="w-full h-[25vh] relative mb-[70px] rounded-xl  ">
-          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="logo" className="h-full w-full object-cover object-center"/>
+          <img src={banner} alt="logo" className="h-full w-full object-cover object-center"/>
           <div className="absolute w-full -bottom-1 left-0 translate-y-[47%] flex items-end gap-4 p-4">
             <div className="relative group cursor-pointer mt-1">
               <img

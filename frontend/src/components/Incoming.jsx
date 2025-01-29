@@ -1,15 +1,20 @@
 
 
-const Incoming = ({msg , img, type}) => {
+const Incoming = ({msg , img}) => {
   return (
-    <div id="font2" className='max-w-[70%] bg-[#1d2437] px-2 py-1 rounded-e-3xl rounded-tl-3xl self-start text-white text-justify flex flex-col justify-between gap-2 items-center'>
+    <div id="font2" className='max-w-[55%] bg-[#1d2437] rounded-e-xl rounded-bl-xl self-start text-white flex flex-col-reverse justify-between items-center py-1 px-1'>
       {img && 
-        <div className=" w-[200px] h-[200px] rounded-t-2xl overflow-hidden pt-1">
-          <img src={img} alt='img' 
-          className='w-full h-full rounded-t-2xl rounded-e-2xl object-cover'/>
-        </div> 
+        <a href={img} target="_blank" rel="noopener noreferrer">
+        <div className="w-[200px] h-[200px] overflow-hidden rounded-b-xl cursor-pointer">
+          <img 
+            src={img} 
+            alt="img" 
+            className="w-full h-full object-cover rounded-b-xl rounded-t-lg" 
+          />
+        </div>
+      </a>     
       }
-      <p className={`text-white text-justify break-words overflow-hidden leading-snug tracking-wide px-3 py-1 ${type ? 'text-[20px] text-[#ffffff65]' : ''}`}>
+      <p className='text-white text-justify break-words overflow-hidden leading-snug tracking-wide px-2 py-2'>
         {msg}
        </p>
     </div>

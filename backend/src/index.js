@@ -23,7 +23,7 @@ app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/chat', chatRouter);
 
-server.listen(PORT, '0.0.0.0', ()=>{
+server.listen(PORT, ()=>{
     console.log('Server up and running at port:', PORT);
     connectDB();
 })
