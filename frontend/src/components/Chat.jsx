@@ -23,7 +23,7 @@ import { markUnreadMsg } from '../../utils/userSlice.js';
 import { TbKeyboardShow  } from "react-icons/tb";
 import { BsKeyboard } from "react-icons/bs";
 import Delayed from './Delayed.jsx';
-import { setCallingUser } from '../../utils/callSlice.js';
+import { setCallingUser, setType } from '../../utils/callSlice.js';
 
 export const Chat = ({ socket }) => {
 
@@ -191,7 +191,8 @@ const sendDelayMsg = async () => {
             <TbPhone className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <TbVideo onClick={()=>{
               dispatch(isCallModalOpen(true)) 
-              dispatch(setCallingUser(chatUser[0]));
+              dispatch(setCallingUser(chatUser[0]._id));
+              dispatch(setType('caller'))
             }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <PiDotsThreeOutlineBold  className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
           </div>

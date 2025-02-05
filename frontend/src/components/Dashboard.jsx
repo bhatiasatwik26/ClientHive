@@ -11,7 +11,7 @@ import { UseSocket } from "../hooks/UseSocket.jsx";
 
 const Dashboard = () => {
 
-    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToIncomingCall, listenToTyping, listenToAddChat} = UseSocket();
+    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToTyping, listenToAddChat} = UseSocket();
 
     const [socket, setSocket] = useState(null);
     
@@ -34,7 +34,6 @@ const Dashboard = () => {
             listenToMessage(socket);
             listenToTyping(socket);
             listenToAddChat(socket);
-            listenToIncomingCall(socket);
         }
             // listenToIncomingCall(socket);
         }, [socket])

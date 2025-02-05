@@ -25,10 +25,17 @@ io.on('connection', (socket)=>{
     socket.on('startCall',(startCallConfig)=>{
         const targetSocketId = socketUserMap[startCallConfig.to];
         const fromSocketId = socketUserMap[startCallConfig.from];
+        console.log(startCallConfig);
+        
         if(!targetSocketId)
-            socket.to(fromSocketId).emit('CallNotAnswer', {userId: startCallConfig.to});
+        {
+            io.to(fromSocketId).emit('callNotAnswered', 'Uhoh! user is offline');
+            console.log('User is offline');
+            
+        }
+        
         else
-            socket.to(targetSocketId).emit('incomingCall', startCallConfig);
+            io.to(targetSocketId).emit('incomingCall', startCallConfig);
     })
 
     socket.on('disconnect', ()=>{

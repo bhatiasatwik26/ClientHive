@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import { io } from "socket.io-client";
-import { setOnlineUsers } from "../../utils/utilSlice";
+import { isCallModalOpen, setOnlineUsers } from "../../utils/utilSlice";
 import { setPersonalChats, setTyping, updateCurrMsg } from "../../utils/chatSlice";
 import { AppStore } from "../../utils/Appstore";
 import { setUnreadMsg } from "../../utils/userSlice";
 import getPersonalChats from "./getPersonalChats";
+import toast from "react-hot-toast";
+import { setCallingUser, setType } from "../../utils/callSlice";
 
 
 export const UseSocket = () => {
@@ -48,14 +50,6 @@ export const UseSocket = () => {
         });
     };
 
-    const listenToIncomingCall = (socket) => {
-        if(!socket) 
-            return
-        socket.on('incomingCall', (data) => {
-            console.log('incoming call', data);
-        });
-    };
-
     const listenToTyping = (socket) => {
         if(!socket) 
             return
@@ -71,8 +65,10 @@ export const UseSocket = () => {
             }
         });
     };
-    
+
     const listenToAddChat = (socket) => {
+        if(!socket) 
+            return
         socket.on('AddChat',(data)=>{
             const currentState = AppStore.getState();
             const personalChats = currentState.Chat.chats.personal || [];
@@ -80,5 +76,5 @@ export const UseSocket = () => {
         })
     }
 
-    return { connectSocket, disconnectSocket, getOnlineUsers, listenToMessage, listenToTyping, listenToAddChat, listenToIncomingCall };
+    return { connectSocket, disconnectSocket, getOnlineUsers, listenToMessage, listenToTyping, listenToAddChat };
 };
