@@ -1,9 +1,6 @@
 import {Server} from 'socket.io';
 import http from 'http';
 import express from 'express';
-import {instrument} from '@socket.io/admin-ui'
-import { log } from 'console';
-import e from 'cors';
 
 const app = express();
 const server = http.createServer(app);
@@ -17,6 +14,7 @@ const io = new Server(server, {
 const socketUserMap = {}
 
 io.on('connection', (socket)=>{
+    
     const userId = socket.handshake.query.userId;
     console.log('Welcome user '+socket.id);
     if(userId)
@@ -25,8 +23,12 @@ io.on('connection', (socket)=>{
     io.emit('getOnlineUsers', Object.keys(socketUserMap));
 
     socket.on('startCall',(startCallConfig)=>{
-        console.log(startCallConfig);
-        /*senderId,offer,sendericecandiadte,receriverId,answer,receivericecandidate*/
+        const targetSocketId = socketUserMap[startCallConfig.to];
+        const fromSocketId = socketUserMap[startCallConfig.from];
+        if(!targetSocketId)
+            socket.to(fromSocketId).emit('CallNotAnswer', {userId: startCallConfig.to});
+        else
+            socket.to(targetSocketId).emit('incomingCall', startCallConfig);
     })
 
     socket.on('disconnect', ()=>{

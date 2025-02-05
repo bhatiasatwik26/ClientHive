@@ -84,11 +84,10 @@ const Profile = () => {
               <img
                 src={photo}
                 alt="userlogo"
-                onClick={() => ref.current.click()}
                 className="w-32 h-32 rounded-full object-cover border-[6px] border-[#222a3f]"
               />
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-4xl text-white bg-black bg-opacity-85 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                <TbPhotoUp className="text-[#dd1d5d] hover:scale-105 duration-100" />
+                <TbPhotoUp onClick={() => ref.current.click()} className="text-[#dd1d5d] hover:scale-105 duration-100" />
               </div>
             </div>
             <div className="flex flex-col gap-1 text-white">

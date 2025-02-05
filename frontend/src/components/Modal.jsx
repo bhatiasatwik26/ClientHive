@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import { MdPersonAdd } from "react-icons/md";
 import { useDispatch } from 'react-redux';
 import { setSelectedChat } from '../../utils/chatSlice';
+import { setDashboardIndex } from '../../utils/utilSlice';
 const Modal = ({ setShowModal,socket }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
@@ -57,6 +58,7 @@ const Modal = ({ setShowModal,socket }) => {
             toast.success("New chat created.");
             socket.emit('AddChat',data.data)
             dispatch(setSelectedChat(data.data));
+            dispatch(setDashboardIndex(1));
             setShowModal(false);
         }     
         console.log(data.data);

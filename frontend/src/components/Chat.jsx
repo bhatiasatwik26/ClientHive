@@ -23,6 +23,7 @@ import { markUnreadMsg } from '../../utils/userSlice.js';
 import { TbKeyboardShow  } from "react-icons/tb";
 import { BsKeyboard } from "react-icons/bs";
 import Delayed from './Delayed.jsx';
+import { setCallingUser } from '../../utils/callSlice.js';
 
 export const Chat = ({ socket }) => {
 
@@ -187,9 +188,10 @@ const sendDelayMsg = async () => {
             </h1>
           </div>
           <div className=' flex-1 flex items-center justify-center gap-14'>
-            <TbPhone   className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
+            <TbPhone className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <TbVideo onClick={()=>{
               dispatch(isCallModalOpen(true)) 
+              dispatch(setCallingUser(chatUser[0]));
             }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <PiDotsThreeOutlineBold  className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
           </div>
@@ -235,10 +237,12 @@ const sendDelayMsg = async () => {
               onClick={clearImg}/>
             </div>
           }
+          <input type="time" className='absolute top-0 right-1 -translate-y-[100%] rounded-md bg-[#1d2437] text-[#dd1d5d] appearance-none  border border-[#dd1d5d73]'/>
+
           <input id='font2' type="text" placeholder={loading ? 'Sending...' :'Your message here'} value={formData.text} 
           onChange={ (e)=>{setFormData({...formData, text:e.target.value })} } disabled={loading}
           className='placeholder:text-[#ffffff4b] w-[100%]  text-lg bg-[#1d2437] pl-5 pr-10 py-3 text-white rounded-md outline-none focus:outline-[#dd1d5d1c] duration-200 disabled:cursor-not-allowed shadow-inner'/>
-          <p className=' text-[#dd1d5d61] absolute right-2 top-1/2 -translate-x-[50%] -translate-y-1/2 '>
+          <p className=' text-[#dd1d5d73] absolute right-2 top-1/2 -translate-x-[50%] -translate-y-1/2 '>
             {onlineUsers.includes(chatUser[0]._id) ? <MdCloudQueue/> : <MdCloudOff />}
           </p>
         </div>

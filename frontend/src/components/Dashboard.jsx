@@ -15,7 +15,6 @@ const Dashboard = () => {
 
     const [socket, setSocket] = useState(null);
     
-    
     const [showModal,setShowModal] = useState(false);
 
     const index = useSelector((state)=>state.GlobalUtil.utils.index);
@@ -35,6 +34,7 @@ const Dashboard = () => {
             listenToMessage(socket);
             listenToTyping(socket);
             listenToAddChat(socket);
+            listenToIncomingCall(socket);
         }
             // listenToIncomingCall(socket);
         }, [socket])
@@ -51,7 +51,7 @@ const Dashboard = () => {
             <div className="w-full p-6 pl-0 bg-[#1d2437]">
                 {components[index]}
                 {showModal ? <Modal setShowModal={setShowModal} socket={socket}/>:null}
-                {false && <CallModal />}
+                {isCallModalOpen && <CallModal socket={socket} />}
                 {/* {<ChatAnalysis />} */}
             </div>
         </div>

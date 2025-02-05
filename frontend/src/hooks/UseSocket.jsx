@@ -80,5 +80,5 @@ export const UseSocket = () => {
         })
     }
 
-    return { connectSocket, disconnectSocket, getOnlineUsers, listenToMessage, listenToTyping, listenToAddChat };
+    return { connectSocket, disconnectSocket, getOnlineUsers, listenToMessage, listenToTyping, listenToAddChat, listenToIncomingCall };
 };
