@@ -63,7 +63,7 @@ const Chatlist = () => {
                         {
                            unRead && (unRead[chat.users[0]._id] || 
                                 unRead[chat.users[1]._id]) && <div className='text-[#ffffffd2] absolute right-0 top-0 bg-[#dd1d5d66] p-2 h-full w-8 flex items-center justify-center rounded-e-md'>
-                                <p >
+                                <p id='font3'>
                                     {unRead[chat.users[0]._id] || 
                                     unRead[chat.users[1]._id]}
                                 </p>

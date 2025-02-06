@@ -4,6 +4,7 @@ import authRouter from './routes/auth.route.js'
 import userRouter from './routes/user.route.js'
 import messageRouter from './routes/message.route.js'
 import chatRouter from './routes/chat.route.js'
+import chatAnalysisRouter from './routes/chatAnalysis.route.js'
 import cookieParser from 'cookie-parser';
 import { connectDB } from './utils/db.js';
 import cors from 'cors';
@@ -22,8 +23,9 @@ app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/chat', chatRouter);
+app.use('/api/analyze-chat', chatAnalysisRouter);
 
-server.listen(PORT, '0.0.0.0', ()=>{
+server.listen(PORT, ()=>{
     console.log('Server up and running at port:', PORT);
     connectDB();
 })

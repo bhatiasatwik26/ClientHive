@@ -33,15 +33,12 @@ export const sendMessage = async (req, res, next) => {
     const receiverId = req.params.id;
     const senderId = req.userId;
     let photoUrl;
-    // console.log(image);
     try{
         
         if(image)
         {
             const uploadResponse = await cloudinary.uploader.upload(image);
             photoUrl = uploadResponse.secure_url;
-            console.log(photoUrl);
-            
         }
         const newMsg = new Message({
             senderId,
@@ -69,5 +66,53 @@ export const sendMessage = async (req, res, next) => {
         console.log(err.message);
         next(err);
     }
+}
+
+export const sendScheduledMessage = async(req, res, next) => {
+    
+    const {text, image, delay} = req.body;
+    const receiverId = req.params.id;
+    const senderId = req.userId;
+    let photoUrl;
+    try{
+        
+        if(image)
+        {
+            const uploadResponse = await cloudinary.uploader.upload(image);
+            photoUrl = uploadResponse.secure_url;
+        }
+        const newMsg = new Message({
+            senderId,
+            receiverId,
+            text,
+            image: photoUrl,
+            type: 'delay'
+        })
+        const result = await newMsg.save();
+        io.to(getSocketIdFromUserId(senderId)).emit('recieveMessage', {...newMsg._doc, type: 'delay'});
+        res.status(201).json({success: true, data:newMsg, type: 'delay'});
+        
+        setTimeout(async() => {
+            newMsg['type'] = null;
+            const newMsg2 = new Message({
+                senderId,
+                receiverId,
+                text,
+                image: photoUrl
+            })
+            await Message.findByIdAndDelete(result._id)
+            await newMsg2.save();
+            io.to(getSocketIdFromUserId(senderId)).emit('recieveMessage', newMsg2);
+            if(getSocketIdFromUserId(receiverId))
+                io.to(getSocketIdFromUserId(receiverId)).emit('recieveMessage', newMsg2);
+        }, delay*1000);
+
+    }
+    catch(err)
+    {
+        console.log(err.message);
+        next(err);
+    }
+
 }
 

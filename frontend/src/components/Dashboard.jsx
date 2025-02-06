@@ -11,10 +11,9 @@ import { UseSocket } from "../hooks/UseSocket.jsx";
 
 const Dashboard = () => {
 
-    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToIncomingCall, listenToTyping, listenToAddChat} = UseSocket();
+    const {connectSocket, getOnlineUsers, disconnectSocket, listenToMessage, listenToTyping, listenToAddChat} = UseSocket();
 
     const [socket, setSocket] = useState(null);
-    
     
     const [showModal,setShowModal] = useState(false);
 
@@ -51,7 +50,7 @@ const Dashboard = () => {
             <div className="w-full p-6 pl-0 bg-[#1d2437]">
                 {components[index]}
                 {showModal ? <Modal setShowModal={setShowModal} socket={socket}/>:null}
-                {false && <CallModal />}
+                {isCallModalOpen && <CallModal socket={socket} />}
                 {/* {<ChatAnalysis />} */}
             </div>
         </div>

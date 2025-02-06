@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import userReducer from "./userSlice.js";
 import utilReducer from './utilSlice.js';
 import chatReducer from './chatSlice.js';
+import callReducer from './callSlice.js';
 import persistReducer from "redux-persist/es/persistReducer";
 const persistConfig = {
   key: "root",
@@ -11,7 +12,7 @@ const persistConfig = {
   version: 1  
 };
 
-const combinedReducer = combineReducers({ CurrUser: userReducer, GlobalUtil: utilReducer, Chat: chatReducer });
+const combinedReducer = combineReducers({ CurrUser: userReducer, GlobalUtil: utilReducer, Chat: chatReducer, Call: callReducer });
 const persistedReducer = persistReducer(persistConfig, combinedReducer);
 
 const AppStore = configureStore({
