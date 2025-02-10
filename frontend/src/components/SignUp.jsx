@@ -28,6 +28,8 @@ const SignUp = () => {
         setLoading(true);
         setError('');
         const mode = signup ? 'signin' : 'signup';
+        console.log(import.meta.env.VITE_API_PATH+'/api/auth/'+mode);
+        
         const res = await fetch(import.meta.env.VITE_API_PATH+'/api/auth/'+mode, {
             method: 'POST',
             headers: {

@@ -7,6 +7,7 @@ import {AppStore,persistor} from "../utils/Appstore";
 import { PersistGate } from "redux-persist/integration/react";
 import Profile from './components/Profile';
 import { Toaster } from 'react-hot-toast';
+import CallNotif from './components/CallNotif';
 const App = () => {
   return (
     <Provider store={AppStore}>
@@ -16,7 +17,7 @@ const App = () => {
             <Route path="/" element={<SignUp />} />
             <Route path="/sign-up" element={<SignUp />} />
             <Route path="/dashboard" element={< Dashboard/>} />  
-            <Route path="/profile" element={< Profile/>} />  
+            <Route path="/profile" element={< CallNotif/>} />  
           </Routes>
           <Toaster
           position="top-right"
@@ -39,7 +40,7 @@ const App = () => {
                 padding: '12px 24px',
                 borderRadius: '8px',
                 boxShadow: '0px 4px 16px rgba(0, 0, 0, 0.1)',
-                border: '2px solid red',
+                border: '2px solid #dd1d5d',
               },
               duration: 1500,
             },

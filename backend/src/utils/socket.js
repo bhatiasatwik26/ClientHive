@@ -22,22 +22,6 @@ io.on('connection', (socket)=>{
     console.log(socketUserMap);
     io.emit('getOnlineUsers', Object.keys(socketUserMap));
 
-    socket.on('startCall',(startCallConfig)=>{
-        const targetSocketId = socketUserMap[startCallConfig.to];
-        const fromSocketId = socketUserMap[startCallConfig.from];
-        console.log(startCallConfig);
-        
-        if(!targetSocketId)
-        {
-            io.to(fromSocketId).emit('callNotAnswered', 'Uhoh! user is offline');
-            console.log('User is offline');
-            
-        }
-        
-        else
-            io.to(targetSocketId).emit('incomingCall', startCallConfig);
-    })
-
     socket.on('disconnect', ()=>{
         console.log('Bye user '+socket.id);
         delete socketUserMap[userId];
@@ -58,6 +42,43 @@ io.on('connection', (socket)=>{
         io.to(targetSocketId2).emit('AddChat',data)
     })
 
+    socket.on('call:initiate', ({to, from, name})=>{
+        const toSocketId = socketUserMap[to];
+        const fromSocketId = socketUserMap[from];
+        if(!toSocketId)
+        {
+            io.to(fromSocketId).emit('call:terminate:offline');
+            console.log('User appears offline');
+        }
+        else
+        {
+            io.to(toSocketId).emit('call:initiate', {from, name});
+        }
+    })
+    socket.on('call:accept', ({to, from})=>{
+        const toSocketId = socketUserMap[to];
+        io.to(toSocketId).emit('call:accept');
+    });
+    socket.on('call:terminate:reject', ({to, from})=>{
+        const toSocketId = socketUserMap[to];
+        io.to(toSocketId).emit('call:terminate:reject');
+    });
+    socket.on('call:offer', ({offer, to, from})=>{
+        const toSocketId = socketUserMap[to];
+        io.to(toSocketId).emit('call:offer', {offer, from});
+    });
+    socket.on('call:answer', ({answer, to, from})=>{
+        const toSocketId = socketUserMap[to];
+        io.to(toSocketId).emit('call:answer', {answer, from});
+    });
+    socket.on('call:negotiation:needed', ({offer, to, from})=>{
+        const toSocketId = socketUserMap[to];
+        io.to(toSocketId).emit('call:negotiation:needed', {offer, from});
+    });
+    socket.on('call:negotiation:done', ({answer, to, from})=>{
+        const toSocketId = socketUserMap[to];
+        io.to(toSocketId).emit('call:negotiation:done', {answer, from});
+    });
 })
 
 export const getSocketIdFromUserId = (userId) => {

@@ -10,77 +10,175 @@ import { IoVideocamOutline } from "react-icons/io5";
 import { IoVideocamOffOutline } from "react-icons/io5";
 import { PiPhoneDisconnect } from "react-icons/pi";
 import peer from '../../utils/peer.js';
+import { use } from 'react';
+import { AppStore } from '../../utils/Appstore.js';
+import { RiWifiOffLine } from "react-icons/ri";
 
 const CallModal = ({ socket }) => {
+
+  const dispatch = useDispatch();
+  const callingUser = useSelector(state=>state.Call.callingUser);
+  const currUser = useSelector(state=>state.CurrUser.user);
+  const type = useSelector(state=>state.Call.type);
+  const localStream = useSelector(state=>state.Call.localStream);
+  const remoteStream = useSelector(state=>state.Call.remoteStream);
+  console.log(localStream, remoteStream);
+  
 
   useEffect(() => {
     callEventListeners();
     if(type == 'caller')
-      startCall();
+      initiateCall();
     else
-      recieveCall(); 
+      confirmCall();
     return () => {
-      console.log(localStream);
+      resetCallListeners();
       dispatch(resetCallSlice());
-      resetListeners();
-    };
+    }
+  }, []);
+
+  useEffect(() => {
+    peer.peer.ontrack = e => dispatch(setRemoteStream(e.streams[0]));
+    peer.peer.onnegotiationneeded = async () => {
+      const offer = await peer.getOffer();
+      socket && socket.emit('call:negotiation:needed', {
+        offer,
+        to: callingUser,
+        from: currUser._id
+      });
+    }
   }, []);
 
   const callEventListeners = () => {
     if(!socket)
       return;
-    socket.on('incomingCall', (data) => {
-      dispatch(isCallModalOpen(true));
-      dispatch(setCallingUser(data.from));
-      dispatch(setType('reciever'));
-    });
-    socket.on('callNotAnswered', (message) => {
+    socket.on('call:terminate:offline', () => {
       dispatch(isCallModalOpen(false));
-      toast.error(message);
+      toast.error('User is offline',{
+        icon: <RiWifiOffLine className='text-xl text-[#dd1d5d]'/>,
+        duration: 1000
+      });
     });
-    socket.on('callAnswered', (data) => {
-            
+    socket.on('call:terminate:reject', () => {
+      console.log('call rejected');
+      dispatch(isCallModalOpen(false));
+      toast.error('Call rejected');
+    });
+    socket.on('call:accept', sendOffer);
+    socket.on('call:offer', sendAnswer);
+    socket.on('call:answer', handleCallAccepted);
+    socket.on('call:negotiation:needed', handleIncomingNegotiationRequest);
+    socket.on('call:negotiation:done', handleIncomingNegotiationDone);
+  }
+
+  const initiateCall = async () => {
+    console.log('initiate call');
+    socket && socket.emit('call:initiate', {
+      to: callingUser,
+      from: currUser._id,
+      name: currUser.username
     });
   }
 
-  const resetListeners = () => {
-    socket.off('incomingCall');
-    socket.off('callNotAnswered');
-    socket.off('callAnswered');
+  const confirmCall = async () => {
+    console.log('confirm call');
+    socket && socket.emit('call:accept', {
+      to: callingUser,
+      from: currUser._id
+    });
   }
 
-
-  const dispatch = useDispatch();
-  const callingUser = useSelector(state=>state.Call.callingUser);
-  const currUser = useSelector(state=>state.CurrUser.user);
-  // const [localStream, setLocalStream] = useState(null);
-  const type = useSelector(state=>state.Call.type);
-  const localStream = useSelector(state=>state.Call.localStream);
-  
-  
-
-
-  const startCall = async () => {
-    try {
+  const sendOffer = async () => {
+    console.log('sending offer');
+    try{
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true
       });
       dispatch(setLocalStream(stream));
-    } 
-    catch (error) {
+    }
+    catch(error){
       console.log(error);
       toast.error(error.message);
     }
     const offer = await peer.getOffer();
-    socket && socket.emit('startCall', {
+    socket && socket.emit('call:offer', {
       offer,
-      to: callingUser._id,
+      to: callingUser,
       from: currUser._id
     });
-    
   }
-  const recieveCall = async () => {
+
+  const sendAnswer = async ({ offer }) => {
+    console.log('got offer, sending answer');
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true
+      });
+      dispatch(setLocalStream(stream));
+    }
+    catch(error){
+      console.log(error);
+      toast.error(error.message);
+    }
+    const answer = await peer.getAnswer(offer);
+    socket && socket.emit('call:answer', {
+      answer,
+      to: callingUser,
+      from: currUser._id
+    });
+  }
+
+  const handleCallAccepted = async ({ answer }) => {
+    console.log('call accepted');
+    await peer.setRemoteDescription(answer);
+    sendStream();
+  }
+
+  const handleIncomingNegotiationRequest = async ({ offer }) => {
+    const answer = await peer.getAnswer(offer);
+    sendStream();
+    socket && socket.emit('call:negotiation:done', {
+      answer,
+      to: callingUser,
+      from: currUser._id
+    });
+  }
+
+  const handleIncomingNegotiationDone = async ({ answer }) => {
+    await peer.setRemoteDescription(answer);
+  }
+
+  const sendStream = () => {
+    console.log('sending stream');
+    const currentState = AppStore.getState();
+    const localStream = currentState.Call.localStream;
+
+    if (!localStream) {
+        console.error("No local stream available.");
+        return;
+    }
+
+    localStream.getTracks().forEach((track) => {
+        const existingSender = peer.peer.getSenders().find(s => s.track?.kind === track.kind);
+        
+        if (existingSender) {
+            existingSender.replaceTrack(track);  // ✅ Replace track instead of adding a new one
+        } else {
+            peer.peer.addTrack(track, localStream);  // ✅ Only add if not already added
+        }
+    });
+};
+
+  const resetCallListeners = () => {
+    socket && socket.off('call:terminate:offline');
+    socket && socket.off('call:terminate:reject');
+    socket && socket.off('call:accept');
+    socket && socket.off('call:offer');
+    socket && socket.off('call:answer');
+    socket && socket.off('call:negotiation:needed');
+    socket && socket.off('call:negotiation:done');
   }
   
   return (
@@ -95,7 +193,7 @@ const CallModal = ({ socket }) => {
         <div className='w-[50%] h-full rounded-lg'>
         <ReactPlayer playing muted height="100%" width="100%" 
         style={{objectFit: 'cover'}} 
-        url={localStream}
+        url={remoteStream}
         />        
         </div>
       </div>

@@ -6,7 +6,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      keyframes: {
+        vibrate: {
+          '0%': { transform: 'rotate(-7deg)' },
+          '50%': { transform: 'rotate(7deg)' },
+          '100%': { transform: 'rotate(-7deg)' },
+        }
+      },
+      animation: {
+        'vibrate': 'vibrate 0.3s ease-in-out infinite',
+      }
+    },
   },
   plugins: [
     scrollbar({ nocompatible: true }),

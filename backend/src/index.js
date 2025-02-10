@@ -14,8 +14,11 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,  
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true); // Allow requests with no origin (e.g., mobile apps, Postman)
+        callback(null, origin); // Dynamically allow the requesting origin
+    },
+    credentials: true, // Required for cookies/auth headers
 }));
 
 app.use('/api/auth', authRouter);

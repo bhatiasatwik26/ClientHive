@@ -7,8 +7,10 @@ const callSlice = createSlice({
   },
   reducers: {
     setLocalStream: (state, action) => {
-      console.log(action.payload);
       state.localStream = action.payload;
+    },
+    setRemoteStream: (state, action) => {
+      state.remoteStream = action.payload;
     },
     setCallingUser: (state, action) => {
       state.callingUser = action.payload;
@@ -17,7 +19,6 @@ const callSlice = createSlice({
       state.type = action.payload;
     },
     resetCallSlice : (state) => {
-      console.log('resetting')
       state.localStream = null;
       state.remoteStream = null;
       state.callingUser = null;

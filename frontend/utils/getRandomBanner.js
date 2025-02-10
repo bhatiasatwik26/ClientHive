@@ -12,6 +12,5 @@ const banners = {
   }
 export const getRandomBanners = () =>{
     let ind = parseInt(Math.random() * 10);
-    console.log(ind);
     return banners[ind];
 }
