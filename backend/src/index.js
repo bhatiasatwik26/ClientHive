@@ -4,6 +4,7 @@ import authRouter from './routes/auth.route.js'
 import userRouter from './routes/user.route.js'
 import messageRouter from './routes/message.route.js'
 import chatRouter from './routes/chat.route.js'
+import chatAnalysisRouter from './routes/chatAnalysis.route.js'
 import cookieParser from 'cookie-parser';
 import { connectDB } from './utils/db.js';
 import cors from 'cors';
@@ -14,17 +15,15 @@ const PORT = process.env.PORT || 4000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin) return callback(null, true); // Allow requests with no origin (e.g., mobile apps, Postman)
-        callback(null, origin); // Dynamically allow the requesting origin
-    },
-    credentials: true, // Required for cookies/auth headers
+    origin: 'http://localhost:5173',
+    credentials: true,  
 }));
 
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 app.use('/api/message', messageRouter);
 app.use('/api/chat', chatRouter);
+app.use('/api/analyze-chat', chatAnalysisRouter);
 
 server.listen(PORT, ()=>{
     console.log('Server up and running at port:', PORT);

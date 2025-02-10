@@ -24,6 +24,7 @@ import { TbKeyboardShow  } from "react-icons/tb";
 import { BsKeyboard } from "react-icons/bs";
 import Delayed from './Delayed.jsx';
 import { setCallingUser, setType } from '../../utils/callSlice.js';
+import { VscGraph } from "react-icons/vsc";
 
 export const Chat = ({ socket }) => {
 
@@ -83,6 +84,30 @@ export const Chat = ({ socket }) => {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [currMsg]);
+
+  useEffect(()=>{
+    fetchChatAnalysis();
+  })
+
+  console.log(chatUser);
+  console.log(currUser);
+  
+  const fetchChatAnalysis = async ()=>{
+    
+    const  data =  await fetch(`${import.meta.env.VITE_API_PATH}/api/analyze-chat`,{
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        user1: currUser,
+        user2: chatUser[0]._id,
+       })
+    })
+    const res = await data.json()
+    console.log(res);
+  }
 
   const fetchMsg = async ()=>{
     dispatch(clearMsg());
@@ -194,7 +219,7 @@ const sendDelayMsg = async () => {
               dispatch(setCallingUser(chatUser[0]._id));
               dispatch(setType('caller'))
             }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
-            <PiDotsThreeOutlineBold  className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
+            <VscGraph  className='text-[24px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
           </div>
           <div id='menu' className=' flex-1 text-right'>
             <h2 id='font3' className='lowercase text-[#ffffff50] cursor-not-allowed'>

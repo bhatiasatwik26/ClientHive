@@ -164,9 +164,9 @@ const CallModal = ({ socket }) => {
         const existingSender = peer.peer.getSenders().find(s => s.track?.kind === track.kind);
         
         if (existingSender) {
-            existingSender.replaceTrack(track);  // ✅ Replace track instead of adding a new one
+            existingSender.replaceTrack(track);
         } else {
-            peer.peer.addTrack(track, localStream);  // ✅ Only add if not already added
+            peer.peer.addTrack(track, localStream);  
         }
     });
 };
