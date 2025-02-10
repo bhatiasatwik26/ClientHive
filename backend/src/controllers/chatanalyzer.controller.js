@@ -1,8 +1,9 @@
+import { Message } from "../models/message.model.js";
 
 
 async function fetchChatMessages(user1, user2) {
     // Example using Mongoose:
-    return ChatModel.find({
+    return Message.find({
       $or: [
         { senderId: user1, receiverId: user2 },
         { senderId: user2, receiverId: user1 }
@@ -35,7 +36,9 @@ function convertToWhatsAppFormat(messages) {
 export const chatAnalyze = async (req, res,next) => {
     try {
       // Get the two users from the request body (from your frontend)
+      
       const { user1, user2 } = req.body;
+      console.log(user1, user2);
       if (!user1 || !user2) {
         return res.status(400).json({ error: 'user1 and user2 are required' });
       }
@@ -47,12 +50,18 @@ export const chatAnalyze = async (req, res,next) => {
       const chatText = convertToWhatsAppFormat(messages);
       
       // Now send this chatText to the Flask API.
-      const flaskResponse = await axios.post('http://127.0.0.1:5000/api/analyze', {
-        chat_text: chatText
-      });
-      
+      const flaskResponse = await fetch('http://127.0.0.1:5000/api/analyze', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ chat_text: chatText })
+    });
+    
+    const flaskData = await flaskResponse.json();
+      console.log(flaskData);
       // Return the analysis result to the frontend.
-      res.json({sucess: true, data: flaskResponse.data});
+      res.json({sucess: true, data: flaskData});
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });

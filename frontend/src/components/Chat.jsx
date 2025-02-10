@@ -17,7 +17,7 @@ import { updateCurrMsg, clearMsg } from '../../utils/chatSlice';
 import { useDispatch } from 'react-redux';
 import { RxCrossCircled } from "react-icons/rx";
 import { PiHourglassMediumBold } from "react-icons/pi"
-import CallModal from './CallModal.jsx';
+// import CallModal from './CallModal.jsx';
 import { isCallModalOpen } from '../../utils/utilSlice.js';
 import { markUnreadMsg } from '../../utils/userSlice.js';
 import { TbKeyboardShow  } from "react-icons/tb";
@@ -85,6 +85,29 @@ export const Chat = ({ socket }) => {
     }
   }, [currMsg]);
 
+  useEffect(()=>{
+    fetchChatAnalysis();
+  })
+
+  console.log(chatUser);
+  console.log(currUser);
+  
+  const fetchChatAnalysis = async ()=>{
+    
+    const  data =  await fetch(`${import.meta.env.VITE_API_PATH}/api/analyze-chat`,{
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        user1: currUser,
+        user2: chatUser[0]._id,
+       })
+    })
+    const res = await data.json()
+    console.log(res);
+  }
   const fetchMsg = async ()=>{
     dispatch(clearMsg());
     const data = await fetch(`${import.meta.env.VITE_API_PATH}/api/message/${chatUser[0]._id}`, {
@@ -123,18 +146,6 @@ export const Chat = ({ socket }) => {
     setLoading(true);
     setMessageschedule(false);
     const delay = parseInt(scheduledata) || 0; 
-<<<<<<< HEAD
-    formData['delay'] = delay
-    
-    if (delay > 0) {
-        toast.success(`Message scheduled for ${delay} minute(s).`);
-    }
-        await sendMessageAPI();
-        setFormData({ image: "", text: "" });
-        setPreview(null);
-        setLoading(false);
-};
-=======
     formData['delay'] = delay;
     if (delay > 0) 
         toast.success(`Message scheduled for ${delay} minute(s).`); 
@@ -147,7 +158,6 @@ export const Chat = ({ socket }) => {
     setLoading(false);
     formData['delay']=0;
     }
->>>>>>> 9a0df6b6f13e01e6b820336100ce0574bf4475bc
 
   const sendNormalMsg = async () => {
     try {
@@ -192,13 +202,6 @@ const sendDelayMsg = async () => {
     setFormData({...formData, image:''});
     setPreview(null);
   }
-<<<<<<< HEAD
-  console.log("apna photo",currUserPhoto);
-  console.log("samnevale ka photo",chatPhoto);
-  
-=======
-
->>>>>>> 9a0df6b6f13e01e6b820336100ce0574bf4475bc
   return (
     <div id='chatContainer' className='h-full flex flex-1 flex-col items-center relative justify-start bg-[#222a3f] py-3 px-4 pb-1 shadow-inner'>
       <div className='w-full h-[10%] flex items-center gap-10 p-10 bg-[#1d2437] rounded-xl relative shadow-sm'>
@@ -210,7 +213,7 @@ const sendDelayMsg = async () => {
           <div className=' flex-1 flex items-center justify-center gap-14'>
             <TbPhone className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
             <TbVideo onClick={()=>{
-              dispatch(isCallModalOpen(true)) 
+              // dispatch(isCallModalOpen(true)) 
               dispatch(setCallingUser(chatUser[0]._id));
               dispatch(setType('caller'))
             }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
@@ -228,14 +231,6 @@ const sendDelayMsg = async () => {
         🔃 After delayed message is delivered, refresh to remove marker. 
         </p>
         {
-<<<<<<< HEAD
-          currMsg.map((msg,index)=>(
-            msg && msg.senderId == chatUser[0]._id ? 
-            <Incoming msg={msg.text} img={msg.image} chatPhoto={chatPhoto}  key={Math.random()}/> :
-            <Outgoing msg={msg.text} img={msg.image} currUserPhoto={currUserPhoto} key={Math.random()}/>
-          ))
-        }
-=======
             currMsg.length > 0 && currMsg.map((msg,index)=>(
               msg.type == 'delay' ? 
               <Delayed msg={msg.text} img={msg.image} key={msg._id}/> :
@@ -244,7 +239,6 @@ const sendDelayMsg = async () => {
               <Outgoing msg={msg.text} img={msg.image} key={msg._id}/>
             ))
           }
->>>>>>> 9a0df6b6f13e01e6b820336100ce0574bf4475bc
         {
             typing && typing.emitterId == chatUser[0]._id &&
             typing.typingStatus &&

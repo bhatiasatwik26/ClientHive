@@ -8,7 +8,6 @@ import { TiInfoLarge } from "react-icons/ti";
 import { MdEmail } from "react-icons/md";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
-import { getRandomBanners } from "../../utils/getRandomBanner";
 
 const Profile = () => {
   const user = useSelector((state) => state.CurrUser.user);
@@ -19,8 +18,6 @@ const Profile = () => {
   const [redirect, setRedirect] = useState(false); 
   const dispatch = useDispatch();
   dispatch(setSelectedChat(null));
-  
-  const banner =  getRandomBanners(); 
 
   if (Object.keys(user).length === 0) {
     return <Navigate to="/sign-up" replace /> 
@@ -74,20 +71,34 @@ const Profile = () => {
     }
   };
 
+  const banner = {
+    "0": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "1": "https://images.unsplash.com/photo-1496661415325-ef852f9e8e7c?q=80&w=1854&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "2": "https://images.unsplash.com/photo-1470158499416-75be9aa0c4db?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "3": "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "4": "https://images.unsplash.com/photo-1591871987673-f1513e38493b?q=80&w=1892&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "5": "https://plus.unsplash.com/premium_photo-1684341008757-3b456034e943?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "6": "https://plus.unsplash.com/premium_photo-1683583961441-511f9498e6ed?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "7": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "8": "https://images.unsplash.com/photo-1433838552652-f9a46b332c40?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "9": "https://images.unsplash.com/photo-1551315424-0e45312b4a5e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
+
   return (
     <div className="h-full flex flex-col items-center justify-start bg-[#222a3f] p-6 rounded-xl shadow-inner">
       <div className="w-full h-full rounded-2xl overflow-hidden">
         <div className="w-full h-[25vh] relative mb-[70px] rounded-xl  ">
-          <img src={banner} alt="logo" className="h-full w-full object-cover object-center"/>
+          <img src={banner[9]} alt="logo" className="h-full w-full object-cover object-center"/>
           <div className="absolute w-full -bottom-1 left-0 translate-y-[47%] flex items-end gap-4 p-4">
             <div className="relative group cursor-pointer mt-1">
               <img
                 src={photo}
                 alt="userlogo"
+                onClick={() => ref.current.click()}
                 className="w-32 h-32 rounded-full object-cover border-[6px] border-[#222a3f]"
               />
               <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center text-4xl text-white bg-black bg-opacity-85 opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                <TbPhotoUp onClick={() => ref.current.click()} className="text-[#dd1d5d] hover:scale-105 duration-100" />
+                <TbPhotoUp className="text-[#dd1d5d] hover:scale-105 duration-100" />
               </div>
             </div>
             <div className="flex flex-col gap-1 text-white">
