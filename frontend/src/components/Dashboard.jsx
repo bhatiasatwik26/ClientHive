@@ -8,6 +8,7 @@ import CallModal from "./CallModal.jsx";
 import toast from "react-hot-toast";
 import { Navigate } from "react-router-dom";
 import { UseSocket } from "../hooks/UseSocket.jsx";
+import ChatAnalysis from "./ChatAnalysis.jsx";
 
 const Dashboard = () => {
 
@@ -21,7 +22,8 @@ const Dashboard = () => {
     const isCallModalOpen = useSelector(state => state.GlobalUtil.utils.isCallModalOpen);
     const currUser = useSelector(state=>state.CurrUser.user)
     const userId = useSelector(state=>state.CurrUser.user._id);
-
+    const isChatAnalyticsOpen = useSelector(state => state.GlobalUtil.utils.isChatAnalyticsOpen);
+    
     useEffect(()=>{
         toast.success("Welcome "+currUser.username+" !!!");   
         setSocket(connectSocket(userId));
@@ -51,7 +53,7 @@ const Dashboard = () => {
                 {components[index]}
                 {showModal ? <Modal setShowModal={setShowModal} socket={socket}/>:null}
                 {isCallModalOpen && <CallModal socket={socket} />}
-                {/* {<ChatAnalysis />} */}
+                {isChatAnalyticsOpen && <ChatAnalysis/>}
             </div>
         </div>
     );

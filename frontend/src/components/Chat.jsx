@@ -18,7 +18,7 @@ import { useDispatch } from 'react-redux';
 import { RxCrossCircled } from "react-icons/rx";
 import { PiHourglassMediumBold } from "react-icons/pi"
 import CallModal from './CallModal.jsx';
-import { isCallModalOpen } from '../../utils/utilSlice.js';
+import { isCallModalOpen, setChatAnalyticsOpen } from '../../utils/utilSlice.js';
 import { markUnreadMsg } from '../../utils/userSlice.js';
 import { TbKeyboardShow  } from "react-icons/tb";
 import { BsKeyboard } from "react-icons/bs";
@@ -85,29 +85,6 @@ export const Chat = ({ socket }) => {
     }
   }, [currMsg]);
 
-  useEffect(()=>{
-    fetchChatAnalysis();
-  })
-
-  console.log(chatUser);
-  console.log(currUser);
-  
-  const fetchChatAnalysis = async ()=>{
-    
-    const  data =  await fetch(`${import.meta.env.VITE_API_PATH}/api/analyze-chat`,{
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        user1: currUser,
-        user2: chatUser[0]._id,
-       })
-    })
-    const res = await data.json()
-    console.log(res);
-  }
 
   const fetchMsg = async ()=>{
     dispatch(clearMsg());
@@ -219,7 +196,11 @@ const sendDelayMsg = async () => {
               dispatch(setCallingUser(chatUser[0]._id));
               dispatch(setType('caller'))
             }} className='text-[28px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
-            <VscGraph  className='text-[24px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
+            <VscGraph onClick={()=>{
+              dispatch(setChatAnalyticsOpen(true)),
+              console.log('clicked');
+              
+            }}  className='text-[24px] cursor-pointer text-[#dd1d5d] hover:scale-[106%] duration-100 ease-linear'/>
           </div>
           <div id='menu' className=' flex-1 text-right'>
             <h2 id='font3' className='lowercase text-[#ffffff50] cursor-not-allowed'>
