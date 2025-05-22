@@ -56,14 +56,14 @@ const ChatAnalysis = () => {
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-70 flex items-center justify-center z-50">
             <div className="bg-gray-900 text-white p-6 rounded-lg shadow-lg w-[90%] h-[90%] overflow-y-auto">
-                <h2 className="text-xl font-bold mb-4">Chat Analysis</h2>
+                <h2 id="font1" className="text-xl font-bold mb-4 capitalize">Chat Analysis</h2>
             
             
             <div className="flex-col items-center justify-between mb-4">
             <div className="flex flex-wrap justify-between gap-6 mb-8">
             {/* Bar Chart: Messages by User */}
             <div className="flex-1 min-w-[300px] max-w-[48%] bg-gray-800 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2">Messages by User</h3>
+                <h3 id="font3" className="text-lg font-semibold mb-2">Messages by User</h3>
                 <div className="h-64">
                 <Bar 
                     data={{
@@ -88,7 +88,7 @@ const ChatAnalysis = () => {
 
             {/* Doughnut Chart: Most Active Day */}
             <div className="flex-1 min-w-[300px] max-w-[48%] bg-gray-800 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2">Most Active Day</h3>
+                <h3 id="font3" className="text-lg font-semibold mb-2">Most Active Day</h3>
                 <div className="h-64 flex items-center justify-center">
                 <Doughnut 
                     data={{
@@ -108,7 +108,7 @@ const ChatAnalysis = () => {
             <div className="flex flex-wrap justify-between gap-6 mb-8">
             {/* Horizontal Bar Chart: Most Common Words */}
             <div className="flex-1 min-w-[300px] max-w-[48%] bg-gray-800 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2">Most Common Words</h3>
+                <h3 id="font3" className="text-lg font-semibold mb-2">Most Common Words</h3>
                 <div className="h-64">
                 <Bar 
                     data={{
@@ -133,7 +133,7 @@ const ChatAnalysis = () => {
             {/* Line Chart: Monthly Timeline */}
             {chatData.monthly_timeline && (
                 <div className="flex-1 min-w-[300px] max-w-[48%] bg-gray-800 p-4 rounded-lg">
-                <h3 className="text-lg font-semibold mb-2">Monthly Timeline</h3>
+                <h3 id="font3" className="text-lg font-semibold mb-2">Monthly Timeline</h3>
                 <div className="h-64">
                     <Line 
                     data={{
@@ -157,8 +157,8 @@ const ChatAnalysis = () => {
             </div>
 
                 <div className="flex justify-between items-center mt-4">
-                    <span className="text-gray-400">Total Messages: {chatData.total_messages}</span>
-                    <span className="text-gray-400">Total Words: {chatData.total_words}</span>
+                    <span id="font3" className="text-gray-400">Total Messages: {chatData.total_messages}</span>
+                    <span id="font3" className="text-gray-400">Total Words: {chatData.total_words}</span>
                 </div>
 
             <div className="flex justify-center w-full">
