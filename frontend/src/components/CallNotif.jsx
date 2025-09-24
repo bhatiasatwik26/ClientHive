@@ -2,7 +2,7 @@ import React from 'react'
 
 const CallNotif = () => {
   return (
-    <div className='w-72 shadow-xl rounded-lg pointer-events-auto bg-[#1d2437] border-2 border-[#dd1d5d] transition-all duration-300 hover:shadow-2xl'>
+    <div className='w-72 shadow-xl rounded-lg pointer-events-auto bg-[#1d2437] border border-[#dd1d5d] transition-all duration-300 hover:shadow-2xl'>
       <div className="p-3 flex flex-col items-center justify-between gap-2">
         <h1 id='font1' className='text-lg font-medium text-white'>
           Incoming call from satwik
